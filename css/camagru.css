@@ -1,0 +1,51 @@
+@import 'https://fonts.googleapis.com/css?family=Prociono';
+.main {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+body {
+    background-color: #795548;
+    color: #ffffff;
+    font-family: 'Prociono', serif;
+}
+
+.add-pads {
+    padding: 5px;
+}
+
+.add-pads img {
+	width: 100%;
+}
+
+/*CAPTION*/
+.description {
+    position: absolute; /* absolute position (so we can position it where we want)*/
+    bottom: 4px; /* position will be on bottom */
+    background-color: silver;
+    /*font-size: 18px;*/
+    color: white;
+    opacity: 0.8;
+    filter: alpha(opacity=60); /* IE transparency */
+    width: 98%;
+}
+p.description_content {
+    padding: 10px;
+    margin: 0px;
+}
+p.description_content a {
+    text-decoration: none;
+    text-transform: capitalize;
+    display: block;
+    color: #0186ba;
+}
+p.description_content a:hover {
+    color: #fff !important;
+}
+p.description_content:hover {
+    background-color: black;
+}
+p.description_content a:visited {
+    color: red;
+}
+/*END CAPTION*/
