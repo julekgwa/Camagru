@@ -45,3 +45,11 @@ footer {
     height: 100%;
     overflow: auto;
 }
+
+.row img {
+    width: 100%;
+}
+
+.fa-bars {
+    font-size: 35px;
+}

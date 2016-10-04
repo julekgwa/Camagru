@@ -1,6 +1,8 @@
 <?php
 if (!isset($_SESSION))
+{
     session_start();
+}
 //expire the session if the user is inactive for 30
 //minutes or more
 $expire = 30;
@@ -23,19 +25,25 @@ $_SESSION['last_login'] = time();
 <header>
     <div class="navbar clearfix">
         <div class="row">
-            <div class="mi-col-xs-3 navbar-brand">
+            <div class="mi-col-xs-2 navbar-brand">
                 <a  href="#">Camagru</a>
             </div>
-            <div class="mi-col-xs-6">
-                <div class="container-search">
+            <div class="mi-col-xs-9">
+                <div class="container-search" style="margin: 0 auto; width: 100%">
                     <form>
                         <input type="search" id="search" placeholder="Search...">
                         <button class="icon"><i class="fa fa-search"></i> </button>
                     </form>
                 </div>
             </div>
-            <div class="mi-col-xs-3 pull-right">
-                <a href="" id="shows" >Register/Login</a>
+            <div class="mi-col-xs-1 pull-right">
+                <div class="dropdown">
+                    <a href="#"><i class="fa fa-bars"></i></a>
+                    <div class="dropdown-content">
+                    <a href="#">Register/Login</a>
+                    <a href="#">Login</a>
+                </div>
+                </div>
             </div>
         </div>
     </div>
