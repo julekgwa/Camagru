@@ -44,7 +44,7 @@ $_SESSION['last_login'] = time();
 <!--registration modal-->
 <div id="mod" class="modal">
     <div class="modal-content">
-        <span class="close">X</span>
+        <span class="close">×</span>
         <p>My Modal...</p>
     </div>
 </div>
