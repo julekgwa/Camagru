@@ -111,16 +111,17 @@ form input[type=search] {
 }
 
 .container-search input#search{
-    height: 30px;
-    background: #2b303b;
+    height: 25px;
+    /*background: #2b303b;*/
     border: none;
     font-size: 10pt;
     float: left;
-    color: #fff;
+    /*color: #fff;*/
+    width: 100%;
     padding-left: 15px;
-    -webkit-border-radius: 5px;
+/*    -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-radius: 5px;
+    border-radius: 5px;*/
 }
 
 .container-search input#search::-webkit-input-placeholder {
@@ -146,7 +147,7 @@ form input[type=search] {
     border-bottom-right-radius: 5px;
     border: none;
     background: #232833;
-    height: 30px;
+    height: 25px;
     color: #4f5b66;
     opacity: 0;
     font-size: 10pt;

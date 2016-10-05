@@ -51,5 +51,31 @@ footer {
 }
 
 .fa-bars {
-    font-size: 35px;
+    font-size: 30px;
+}
+.navbar-brand {
+    font-size: 18px;
+}
+
+.pull-right, .navbar-brand {
+    background-color: #000;
+    height: 35px;
+    text-align: center;
+    color: #fff;
+}
+.container-search {
+    height: 35px;
+}
+
+.mi-col-xs-9 {
+    background-color: #03A9F4;
+}
+
+.pull-right a, .navbar-brand a {
+    color: #fff;
+}
+
+form {
+    width: 90%;
+    margin: 5px auto;
 }
