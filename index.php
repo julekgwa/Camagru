@@ -2,14 +2,11 @@
 <html>
 <head>
     <title>Camagru Gallery</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet">
-    <link href="css/mistyle.css" type="text/css" rel="stylesheet">
-    <link href="css/camagru.css" type="text/css" rel="stylesheet">
+    <?php require_once('header_files.php'); ?>
 </head>
 <body>
-<?php require_once('header.php'); ?>
 <div class="container clearfix">
+    <?php require_once('nav.php'); ?>
     <div class="row">
         <div class="mi-col-xs-12 col-sm-6 col-md-4 add-pads">
             <img src="http://www.w3schools.com/bootstrap/sanfran.jpg">
@@ -30,10 +27,7 @@
             </div>
         </div>
     </div>
+    <?php require_once('footer.php'); ?>
 </div>
-<script src="js/camagru.js"></script>
-<footer>
-    <p>&copy; <?php echo date('Y'); ?> Camagru. Developed by <a href="https://profile.intra.42.fr/users/julekgwa"> julekgwa</a></p>
-</footer>
 </body>
 </html>

@@ -17,6 +17,12 @@ form input[type=search] {
     width: 80%;
 }
 
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 .container {
     width: 90%;
     margin: 0 auto;
@@ -26,7 +32,7 @@ form input[type=search] {
     /*background-color: black !important;*/
     width: 100%;
     color: #fff;
-    padding: 15px;
+    /*padding: 15px;*/
 }
 
 .mi-col-xs-1, .mi-col-sm-1, .mi-col-md-1, .mi-col-lg-1, .mi-col-xs-2, .mi-col-sm-2, .mi-col-md-2, .mi-col-lg-2, .mi-col-xs-3, .mi-col-sm-3, .mi-col-md-3, .mi-col-lg-3, .mi-col-xs-4, .mi-col-sm-4, .mi-col-md-4, .mi-col-lg-4, .mi-col-xs-5, .mi-col-sm-5, .mi-col-md-5, .mi-col-lg-5, .mi-col-xs-6, .mi-col-sm-6, .mi-col-md-6, .mi-col-lg-6, .mi-col-xs-7, .mi-col-sm-7, .mi-col-md-7, .mi-col-lg-7, .mi-col-xs-8, .mi-col-sm-8, .mi-col-md-8, .mi-col-lg-8, .mi-col-xs-9, .mi-col-sm-9, .mi-col-md-9, .mi-col-lg-9, .mi-col-xs-10, .mi-col-sm-10, .mi-col-md-10, .mi-col-lg-10, .mi-col-xs-11, .mi-col-sm-11, .mi-col-md-11, .mi-col-lg-11, .mi-col-xs-12, .mi-col-sm-12, .mi-col-md-12, .mi-col-lg-12 {

@@ -30,7 +30,7 @@ p.description_content a:visited {
 }
 /*END CAPTION*/
 
-footer {
+footer p {
     text-align: center;
     font-style: italic;
 }
@@ -58,7 +58,7 @@ footer {
 }
 
 .pull-right, .navbar-brand {
-    background-color: #000;
+    background-color: #03A9F4;
     height: 35px;
     text-align: center;
     color: #fff;
@@ -78,4 +78,67 @@ footer {
 form {
     width: 90%;
     margin: 5px auto;
+}
+
+.login {
+    background-color: #ECEFF1;
+}
+
+.login input:invalid {
+    border-color: red;
+}
+.login input,
+input:valid {
+    border-color: #ccc;
+}
+
+.login input[type=text], .login input[type=password] {
+    width: 100%;
+    margin-bottom: 5px;
+    outline: 0;
+    border: 2px solid #B0BEC5;
+    padding: 10px;
+}
+
+.login input[type=submit] {
+    background-color: #03A9F4;
+    width: 100%;
+    outline: 0;
+    padding: 10px;
+    border: 0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.login h2 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.sub-title {
+    font-size: 12px;
+    text-transform: none;
+    font-style: italic;
+}
+
+label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #B0BEC5;
+    margin-bottom: 10px;
+}
+
+.login p {
+    font-size: 12px;
+    color: #B0BEC5;
+    font-family: 'Prociono', serif;
+}
+.forgot {
+    float: right;
+    font-style: italic;
+    color: red;
+}
+
+.container {
+    background-color: #ECEFF1;
 }
