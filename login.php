@@ -27,6 +27,7 @@
                     <br>
                     <p><input type="checkbox" checked name="remember"> Remember me <span class="forgot">Forgotten password</span> </p>
                     <input type="submit" value="Login" name="login">
+                    <p>Don't have an account? <a href="register.php">Sign up</a></p>
                 </form>
             </div>
         </div>

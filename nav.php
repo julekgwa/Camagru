@@ -35,10 +35,11 @@ $_SESSION['last_login'] = time();
             </div>
             <div class="mi-col-xs-1 pull-right">
                 <div class="dropdown">
-                    <a href="#"><i class="fa fa-bars"></i></a>
+                    <a class="menu" href="#"><i class="fa fa-bars"></i></a>
                     <div class="dropdown-content">
-                        <a href="login.php">Login</a>
-                        <a href="#">Logout</a>
+                        <a href="edit_image.php">Egit images</a>
+                        <a href="profile.php">Profile</a>
+                        <a href="logout.php">Logout</a>
                     </div>
                 </div>
             </div>
