@@ -25,7 +25,7 @@
                     <label for="passwd">Password</label>
                     <input type="password" name="passwd" required>
                     <br>
-                    <p><input type="checkbox" checked name="remember"> Remember me <span class="forgot">Forgotten password</span> </p>
+                    <p><input type="checkbox" checked name="remember"> Remember me <span class="forgot"><a href="reset.php">Forgotten password</a></span> </p>
                     <input type="submit" value="Login" name="login">
                     <p>Don't have an account? <a href="register.php">Sign up</a></p>
                 </form>
