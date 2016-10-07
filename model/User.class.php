@@ -11,15 +11,18 @@
  *
  * @author julekgwa
  */
-class User {
+class User
+{
 
     private $_db;
 
-    function __construct($DB) {
+    function __construct($DB)
+    {
         $this->_db = $DB;
     }
 
-    public function register($user_name, $user_email, $user_passwd) {
+    public function register($user_name, $user_email, $user_passwd)
+    {
         $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`) VALUES (?,?,?)');
         try {
             $passwd_hash = password_hash($user_passwd, PASSWORD_DEFAULT);
@@ -31,32 +34,30 @@ class User {
         }
     }
 
-    public function login($user_email, $user_passwd) {
+    public function login($user_email, $user_passwd)
+    {
         $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `user_name` = ? OR `user_email` = ? LIMIT 1');
         try {
-            $no_error = $stmt->execute(array($user_email, $user_email));
-            if ($no_error)
-            {
-                $results = $stmt->fetch(PDO::FETCH_ASSOC);
-                if ($stmt->rowCount() > 0)
-                {
-                    if (password_verify($user_passwd, $results['user_passwd']))
-                    {
-                        $_SESSION['logged_on_user'] = $results['user_name'];
-                        return TRUE;
-                    }
+            $stmt->execute(array($user_email, $user_email));
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount() > 0) {
+                if (password_verify($user_passwd, $results['user_passwd'])) {
+                    $_SESSION['logged_on_user'] = $results['user_name'];
+                    $_SESSION['last_login'] = time();
+                    return TRUE;
                 }
-                else
-                {
-                    return FALSE;
-                }
+            } else {
+                return FALSE;
             }
+            return false;
+
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public function is_logged_on() {
+    public function is_logged_on()
+    {
         if (isset($_SESSION['logged_on_user'])) {
             return TRUE;
         } else {
@@ -64,7 +65,8 @@ class User {
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
         unset($_SESSION['logged_on_user']);
         unset($_SESSION['last_login']);

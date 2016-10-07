@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
 }
 //expire the session if the user is inactive for 30
 //minutes or more
-$expire = 1;
+$expire = 5;
 if (isset($_SESSION['last_login'])) {
     //get time since last login.
     $inactive = time() - $_SESSION['last_login'];

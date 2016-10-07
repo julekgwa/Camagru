@@ -1,7 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: julekgwa
- * Date: 2016/10/05
- * Time: 3:50 PM
- */
+require_once '../db/db_conn.php';
+if ($controller->logout())
+{
+    header('Location: http://localhost:8080/Camagru/');
+}
+else
+{
+    require_once ('display_error.php');
+}

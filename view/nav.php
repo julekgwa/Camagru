@@ -1,3 +1,8 @@
+<?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+?>
 <header>
     <div class="navbar clearfix">
         <div class="row">

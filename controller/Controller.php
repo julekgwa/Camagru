@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once '../model/User.class.php';
 
 class Controller {
@@ -31,6 +31,13 @@ class Controller {
             return TRUE;
         } else {
             return FALSE;
+        }
+    }
+    public function logout()
+    {
+        if ($this->_model->logout())
+        {
+            return true;
         }
     }
 
