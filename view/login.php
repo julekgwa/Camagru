@@ -1,6 +1,6 @@
 <?php
 require_once '../db/db_conn.php';
-$error = '';
+$error_msg = 'The username or password is incorrect.';
 if (filter_has_var(INPUT_POST, 'login')) {
     $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $passwd = filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING);
@@ -13,19 +13,17 @@ if (filter_has_var(INPUT_POST, 'login')) {
 ?>
 <html>
     <head>
-<?php require_once('header_files.php'); ?>
+        <?php require_once('header_files.php'); ?>
     </head>
     <body>
         <div class="container clearfix">
-<?php
-require_once('nav.php');
-echo $error;
-?>
+            <?php require_once('nav.php'); ?>
             <div class="row">
                 <div class="mi-col-xs-12">
                     <div class="login">
                         <h2>Welcome back!<br>
                             <span class="sub-title">Login to your account below</span></h2>
+                        <p class="error"><?php echo $error_msg; ?></p>
                         <form action="" method="post">
                             <label for="username">Username/e-mail</label>
                             <input type="text" name="username" required>
@@ -41,6 +39,6 @@ echo $error;
                 </div>
             </div>
         </div>
-<?php require_once('footer.php'); ?>
+        <?php require_once('footer.php'); ?>
     </body>
 </html>
