@@ -19,13 +19,15 @@ if (!isset($_SESSION)) {
             </div>
             <div class="mi-col-xs-1 pull-right">
                 <div class="dropdown">
-                    <a class="menu" href="#"><i class="fa fa-bars"></i></a>
-                    <div class="dropdown-content">
-                        <a href="/Camagru/view/login.php">Login</a>
-                        <a href="/Camagru/view/edit_image.php">Edit images</a>
-                        <a href="/Camagru/view/profile.php">Profile</a>
-                        <a href="/Camagru/view/logout.php">Logout</a>
-                    </div>
+                    <?php if (isset($_SESSION['logged_on_user'])) : require_once ('logged_in.php'); ?>
+                    <?php else: ?>
+                        <a class="menu" href="#"><i class="fa fa-bars"></i></a>
+                        <div class="dropdown-content">
+                            <a href="/Camagru/view/login.php">Login</a>
+                            <a href="/Camagru/view/edit_image.php">Edit images</a>
+                            <a href="/Camagru/view/profile.php">Profile</a>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

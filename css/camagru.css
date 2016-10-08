@@ -150,3 +150,9 @@ label {
     text-align: center;
     font-size: 16px;
 }
+
+.dropdown img {
+    width: 30px;
+    float: right;
+    border-radius: 50%;
+}

@@ -68,9 +68,25 @@ class User
     public function logout()
     {
         session_destroy();
+        session_unset();
         unset($_SESSION['logged_on_user']);
         unset($_SESSION['last_login']);
         return true;
     }
+    
+    public function sendMail($username, $email) {
+        $msg = "Welcome to Camagru !
 
+Thank you for registering at Camagru, your account has been activated.
+You can go to http://localhost/Camagru to log into your account. Your account information is shown below for reference purposes.
+
+Login : $email
+
+The last step is the validation of your email address. For that, please visit this URL: 
+
+Thanks and enjoy :)
+
+All the best,
+Camagru Team.";
+    }
 }

@@ -1,8 +1,9 @@
 <?php
+session_start();
 require_once '../db/db_conn.php';
 if ($controller->logout())
 {
-    header('Location: http://localhost:8080/Camagru/');
+    header('Location: http://localhost/Camagru/');
 }
 else
 {
