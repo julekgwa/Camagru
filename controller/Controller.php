@@ -73,5 +73,12 @@ class Controller {
     public function used_username($user_name) {
         return $this->_model->is_username_used($user_name);
     }
-
+    
+    public function is_valid_passwd($passwd) {
+        return $this->_model->is_passwd_valid($passwd);
+    }
+    
+    public function is_valid_username($user_name) {
+        return $this->_model->is_username_valid($user_name);
+    }
 }

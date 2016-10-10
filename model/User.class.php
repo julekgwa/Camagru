@@ -159,9 +159,21 @@ class User {
             return FALSE;
         }
     }
-    
-    public function is_passwd_valid(){}
-    
-    public function is_username_valid(){}
+
+    public function is_passwd_valid($passwd) {
+        if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/', $passwd)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
+    public function is_username_valid($user_name) {
+        if (preg_match('/^[A-Za-z][A-Za-z0-9]*(?:_+[A-Za-z0-9]+)*$/', $user_name)) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 
 }
