@@ -1,7 +1,6 @@
 <?php
 require_once ('siteconfig.php');
 require_once DIRECTORY . '/../db/db_conn.php';
-$error = '';
 if (filter_has_var(INPUT_POST, 'register')) {
     $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $passwd = filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING);
@@ -21,10 +20,10 @@ if (filter_has_var(INPUT_POST, 'register')) {
                 $site_error['username'] = 'Only alphanumeric characters and underscore are allowed.';
             }
             if (!isset($site_error)) {
-                if (!$controller->used_email($email)) {
+                if ($controller->used_email($email)) {
                     $site_error['email'] = 'Email provided is already in use.';
                 }
-                if (!$controller->used_username($user)) {
+                if ($controller->used_username($user)) {
                     $site_error['username'] = 'Username provided is already in use.';
                 }
                 if (!isset($site_error)) {

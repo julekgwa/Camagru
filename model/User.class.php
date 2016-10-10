@@ -134,9 +134,9 @@ class User {
             $stmt->execute(array($email));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if (!empty($row['user_email'])) {
-                return FALSE;
-            } else {
                 return TRUE;
+            } else {
+                return FALSE;
             }
         } catch (PDOException $exc) {
             echo $exc->getMessage(); //display a nice message to the user.
@@ -150,9 +150,9 @@ class User {
             $stmt->execute(array($user_name));
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if (!empty($row['user_name'])) {
-                return FALSE;
-            } else {
                 return TRUE;
+            } else {
+                return FALSE;
             }
         } catch (PDOException $exc) {
             echo $exc->getMessage(); //display a nice message to the user.
