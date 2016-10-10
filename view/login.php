@@ -5,7 +5,7 @@ if (filter_has_var(INPUT_POST, 'login')) {
     $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $passwd = filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING);
     if ($controller->login($user, $passwd)) {
-        header('Location: ' . SITE.'/view/edit_image.php');
+        header('Location: ' . SITE . '/view/edit_image.php');
     } else {
         $error_msg = 'The username or password is incorrect.';
     }

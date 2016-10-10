@@ -11,6 +11,8 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+//set timezone
+date_default_timezone_set('Africa/Johannesburg');
 define('SITE', 'http://localhost/Camagru');
 define('SITEMAIL', 'noreply@localhost.com');
 define('DIRECTORY', __DIR__);

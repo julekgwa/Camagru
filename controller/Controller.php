@@ -1,4 +1,5 @@
 <?php
+
 require_once DIRECTORY . '/../model/User.class.php';
 
 class Controller {
@@ -17,6 +18,13 @@ class Controller {
         }
     }
 
+    /**
+     * 
+     * @param string username for the user.
+     * @param string user registration email.
+     * @param string user password.
+     * @return boolean true if successful.
+     */
     public function register($user_name, $user_email, $user_passwd) {
         if ($this->_model->register($user_name, $user_email, $user_passwd)) {
             return TRUE;
@@ -25,28 +33,22 @@ class Controller {
         }
     }
 
-    public function set_site($site)
-    {
+    public function set_site($site) {
         $this->_model->set_site($site);
     }
 
     /**
      * @return User
      */
-    public function activate_user($id, $code)
-    {
-        if ($this->_model->activate($id, $code))
-        {
+    public function activate_user($id, $code) {
+        if ($this->_model->activate($id, $code)) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
-    public function getRowCount()
-    {
+    public function getRowCount() {
         return $this->_model->rowCount();
     }
 
@@ -57,12 +59,19 @@ class Controller {
             return FALSE;
         }
     }
-    public function logout()
-    {
-        if ($this->_model->logout())
-        {
+
+    public function logout() {
+        if ($this->_model->logout()) {
             return true;
         }
+    }
+    
+    public function used_email($email) {
+        return $this->_model->is_email_used($email);
+    }
+    
+    public function used_username($user_name) {
+        return $this->_model->is_username_used($user_name);
     }
 
 }

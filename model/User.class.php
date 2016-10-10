@@ -11,20 +11,24 @@
  *
  * @author julekgwa
  */
-class User
-{
+class User {
 
     private $_db;
     private $_site;
     private $_rowCount;
 
-    function __construct($DB)
-    {
+    function __construct($DB) {
         $this->_db = $DB;
     }
 
-    public function register($user_name, $user_email, $user_passwd)
-    {
+    /**
+     * 
+     * @param string username for the user.
+     * @param string user registration email.
+     * @param string user password.
+     * @return boolean true if successful.
+     */
+    public function register($user_name, $user_email, $user_passwd) {
         $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`, `activated`) VALUES (?, ?, ?, ?)');
         $code = md5(uniqid(rand(), true)); //creating activation code.
         try {
@@ -42,13 +46,11 @@ class User
     /**
      * @param mixed $site
      */
-    public function set_site($site)
-    {
+    public function set_site($site) {
         $this->_site = $site;
     }
 
-    public function login($user_email, $user_passwd)
-    {
+    public function login($user_email, $user_passwd) {
         $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE (`user_name` = ? OR `user_email` = ?) AND activated = ?');
         try {
             $stmt->execute(array($user_email, $user_email, '1'));
@@ -63,7 +65,6 @@ class User
                 return FALSE;
             }
             return false;
-
         } catch (PDOException $e) {
             $error = $e->getMessage();
             require_once('../view/display_error.php'); //don't forget to display friendly error messages to the user
@@ -71,8 +72,7 @@ class User
         }
     }
 
-    public function is_logged_on()
-    {
+    public function is_logged_on() {
         if (isset($_SESSION['logged_on_user'])) {
             return TRUE;
         } else {
@@ -80,8 +80,7 @@ class User
         }
     }
 
-    public function logout()
-    {
+    public function logout() {
         session_destroy();
         session_unset();
         unset($_SESSION['logged_on_user']);
@@ -89,8 +88,7 @@ class User
         return true;
     }
 
-    private function send_mail($username, $email, $user_id, $code)
-    {
+    private function send_mail($username, $email, $user_id, $code) {
         $subject = "Registration Confirmation";
         $to = $email;
         $headers = "From: no-reply@camagru.com\r\n";
@@ -100,8 +98,7 @@ class User
         mail($to, $subject, $msg, $headers);
     }
 
-    public function activate($id, $code)
-    {
+    public function activate($id, $code) {
         $stmt = $this->_db->prepare("UPDATE `users` SET `activated` = '1' WHERE `user_id` = ? AND `activated` = ?");
         try {
             $stmt->execute(array($id, $code));
@@ -113,13 +110,11 @@ class User
         }
     }
 
-    public function rowCount()
-    {
+    public function rowCount() {
         return $this->_rowCount;
     }
 
-    private function mail_content($username, $email, $user_id, $code)
-    {
+    private function mail_content($username, $email, $user_id, $code) {
         $content = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'></head><body>
                     <table width='100%' border='0' cellpadding='0'> <tr><td><table align='center' border='0' cellpadding='0' cellspacing='0'
                     style='border-collapse: collapse; width: 80%; margin: 0 auto; border: 1px solid #cccccc;'> <tr><td bgcolor='#03A9F4' 
@@ -132,4 +127,41 @@ class User
                     </td> </tr> </table> </td> </tr> </table> </body> </html>";
         return $content;
     }
+
+    public function is_email_used($email) {
+        $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `user_email` = ?');
+        try {
+            $stmt->execute(array($email));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!empty($row['user_email'])) {
+                return FALSE;
+            } else {
+                return TRUE;
+            }
+        } catch (PDOException $exc) {
+            echo $exc->getMessage(); //display a nice message to the user.
+            return FALSE;
+        }
+    }
+
+    public function is_username_used($user_name) {
+        $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `user_name` = ?');
+        try {
+            $stmt->execute(array($user_name));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!empty($row['user_name'])) {
+                return FALSE;
+            } else {
+                return TRUE;
+            }
+        } catch (PDOException $exc) {
+            echo $exc->getMessage(); //display a nice message to the user.
+            return FALSE;
+        }
+    }
+    
+    public function is_passwd_valid(){}
+    
+    public function is_username_valid(){}
+
 }

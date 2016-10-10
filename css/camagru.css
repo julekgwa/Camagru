@@ -162,6 +162,10 @@ label {
 }
 
 .head-cont {
-background-color: #03A9F4;
-/*height: 145px;*/
+    background-color: #03A9F4;
+    /*height: 145px;*/
+}
+
+span.error {
+    color: red;
 }
