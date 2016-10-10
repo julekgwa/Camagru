@@ -1,16 +1,10 @@
-<?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-$dir = 'http://localhost/Camagru/';
-?>
 <header>
     <div class="navbar clearfix">
         <div class="row">
            <div class="head-cont clearfix">
                 <div class="mi-col-xs-2 navbar-brand">
                 <!-- <a href="#">Camagru</a> -->
-                <img src="<?php echo $dir . 'img/logo.png'; ?>">
+                <img src="<?php echo SITE . '/img/logo.png'; ?>">
             </div>
             <div class="mi-col-xs-9">
                 <div class="container-search" style="margin: 0 auto; width: 100%">
@@ -26,8 +20,8 @@ $dir = 'http://localhost/Camagru/';
                     <?php else: ?>
                         <a class="menu" href="#"><i class="fa fa-bars"></i></a>
                         <div class="dropdown-content">
-                            <a href="<?php echo $dir . 'view/login.php'; ?>">Login</a>
-                            <a href="<?php echo $dir . 'view/edit_image.php'; ?>">Edit images</a>
+                            <a href="<?php echo SITE . '/view/login.php'; ?>">Login</a>
+                            <a href="<?php echo SITE . '/view/edit_image.php'; ?>">Edit images</a>
                         </div>
                     <?php endif; ?>
                 </div>

@@ -1,5 +1,6 @@
 <?php
-require_once ('../db/db_conn.php');
+require_once ('siteconfig.php');
+require_once (DIRECTORY . '/../db/db_conn.php');
 ?>
 <html>
 <head>

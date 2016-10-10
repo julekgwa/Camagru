@@ -1,5 +1,6 @@
 <?php
-require_once '../db/db_conn.php';
+require_once ('siteconfig.php');
+require_once DIRECTORY . '/../db/db_conn.php';
 $error = '';
 if (filter_has_var(INPUT_POST, 'register')) {
     $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);

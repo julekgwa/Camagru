@@ -1,3 +1,6 @@
+<?php
+require_once ('view/siteconfig.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>

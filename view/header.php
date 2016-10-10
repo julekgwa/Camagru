@@ -1,9 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-if (!isset($_SESSION)) {
-    session_start();
-}
 //expire the session if the user is inactive for 30
 //minutes or more
 $expire = 5;

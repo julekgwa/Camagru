@@ -1,6 +1,5 @@
 <?php
-session_start();
-require_once '../model/User.class.php';
+require_once DIRECTORY . '/../model/User.class.php';
 
 class Controller {
 
@@ -12,9 +11,9 @@ class Controller {
 
     public function is_logged_in() {
         if ($this->_model->is_logged_on()) {
-            include '../view/edit_image.php';
+            include DIRECTORY . '../view/edit_image.php';
         } else {
-            include '../view/login.php';
+            include DIRECTORY . '../view/login.php';
         }
     }
 
