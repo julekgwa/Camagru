@@ -26,6 +26,31 @@ class Controller {
         }
     }
 
+    public function set_site($site)
+    {
+        $this->_model->set_site($site);
+    }
+
+    /**
+     * @return User
+     */
+    public function activate_user($id, $code)
+    {
+        if ($this->_model->activate($id, $code))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function getRowCount()
+    {
+        return $this->_model->rowCount();
+    }
+
     public function login($username, $user_passwd) {
         if ($this->_model->login($username, $user_passwd)) {
             return TRUE;

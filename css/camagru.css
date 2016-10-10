@@ -46,9 +46,9 @@ footer p {
     overflow: auto;
 }
 
-.row img {
+/*.row img {
     width: 100%;
-}
+}*/
 
 .fa-bars {
     font-size: 30px;
@@ -58,21 +58,25 @@ footer p {
 }
 
 .pull-right, .navbar-brand {
-    background-color: #03A9F4;
-    height: 35px;
+    /*background-color: #03A9F4;*/
+    /*height: 35px;*/
     text-align: center;
     color: #fff;
 }
-.container-search {
+/*.container-search {
     height: 35px;
-}
+}*/
 
-.mi-col-xs-9 {
+/*.mi-col-xs-9 {
     background-color: #03A9F4;
-}
+}*/
 
 .fa-bars, .navbar-brand a {
     color: #fff;
+}
+
+.navbar-brand img {
+    width: 140px;
 }
 
 form {
@@ -155,4 +159,9 @@ label {
     width: 30px;
     float: right;
     border-radius: 50%;
+}
+
+.head-cont {
+background-color: #03A9F4;
+/*height: 145px;*/
 }

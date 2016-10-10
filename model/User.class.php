@@ -15,6 +15,8 @@ class User
 {
 
     private $_db;
+    private $_site;
+    private $_rowCount;
 
     function __construct($DB)
     {
@@ -23,22 +25,33 @@ class User
 
     public function register($user_name, $user_email, $user_passwd)
     {
-        $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`) VALUES (?,?,?)');
+        $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`, `activated`) VALUES (?, ?, ?, ?)');
+        $code = md5(uniqid(rand(), true)); //creating activation code.
         try {
             $passwd_hash = password_hash($user_passwd, PASSWORD_DEFAULT);
-            $stmt->execute(array($user_name, $user_email, $passwd_hash));
+            $stmt->execute(array($user_name, $user_email, $passwd_hash, $code));
+            $user_id = $this->_db->lastInsertId();
+            $this->send_mail($user_name, $user_email, $user_id, $code);
             return $stmt;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            echo $e->getMessage(); //don't forget to display friendly error messages to the user
             return FALSE;
         }
     }
 
+    /**
+     * @param mixed $site
+     */
+    public function set_site($site)
+    {
+        $this->_site = $site;
+    }
+
     public function login($user_email, $user_passwd)
     {
-        $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `user_name` = ? OR `user_email` = ? LIMIT 1');
+        $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE (`user_name` = ? OR `user_email` = ?) AND activated = ?');
         try {
-            $stmt->execute(array($user_email, $user_email));
+            $stmt->execute(array($user_email, $user_email, '1'));
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($stmt->rowCount() > 0) {
                 if (password_verify($user_passwd, $results['user_passwd'])) {
@@ -52,7 +65,9 @@ class User
             return false;
 
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            $error = $e->getMessage();
+            require_once('../view/display_error.php'); //don't forget to display friendly error messages to the user
+            exit();
         }
     }
 
@@ -73,20 +88,48 @@ class User
         unset($_SESSION['last_login']);
         return true;
     }
-    
-    public function sendMail($username, $email) {
-        $msg = "Welcome to Camagru !
 
-Thank you for registering at Camagru, your account has been activated.
-You can go to http://localhost/Camagru to log into your account. Your account information is shown below for reference purposes.
+    private function send_mail($username, $email, $user_id, $code)
+    {
+        $subject = "Registration Confirmation";
+        $to = $email;
+        $headers = "From: no-reply@camagru.com\r\n";
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        $msg = $this->mail_content($username, $email, $user_id, $code);
+        mail($to, $subject, $msg, $headers);
+    }
 
-Login : $email
+    public function activate($id, $code)
+    {
+        $stmt = $this->_db->prepare("UPDATE `users` SET `activated` = '1' WHERE `user_id` = ? AND `activated` = ?");
+        try {
+            $stmt->execute(array($id, $code));
+            $this->_rowCount = $stmt->rowCount();
+            return true;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 
-The last step is the validation of your email address. For that, please visit this URL: 
+    public function rowCount()
+    {
+        return $this->_rowCount;
+    }
 
-Thanks and enjoy :)
-
-All the best,
-Camagru Team.";
+    private function mail_content($username, $email, $user_id, $code)
+    {
+        $content = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'></head><body>
+                    <table width='100%' border='0' cellpadding='0'> <tr><td><table align='center' border='0' cellpadding='0' cellspacing='0'
+                    style='border-collapse: collapse; width: 80%; margin: 0 auto; border: 1px solid #cccccc;'> <tr><td bgcolor='#03A9F4' 
+                    align='center' style='padding: 20px 0 30px 0;'><img src='$this->_site/img/logo.png'></td></tr><tr> <td bgcolor='#ffffff' 
+                    style='padding: 40px 30px 40px 30px;'><table><tr><td>Welcome to Camagru !</td></tr><tr> <td style='padding: 20px 0 30px 0;'>
+                    Thank you for registering at Camagru, your account has been activated.<br> You can go to $this->_site to log into your account.
+                    Your account information is shown below for reference purposes.<br><br> Login : $username or $email <br><br> The last 
+                    step is the validation of your email address. For that, please visit this URL: $this->_site/view/activate.php?id=$user_id&activate=$code <br><br> Thanks and enjoy :)<br><br> All the best,<br> Camagru Team.
+                    </td> </tr> </table> </td> </tr> <tr> <td bgcolor='#03A9F4' style='padding: 20px 20px 20px 20px; color: #ffffff'> &copy; Camagru 2016. 
+                    </td> </tr> </table> </td> </tr> </table> </body> </html>";
+        return $content;
     }
 }

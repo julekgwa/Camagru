@@ -10,5 +10,5 @@ try {
     require_once ('../view/display_error.php');
     exit();
 }
-
 $controller = new Controller($DB);
+$controller->set_site('');
