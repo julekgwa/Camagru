@@ -34,7 +34,7 @@ if (filter_has_var(INPUT_POST, 'register')) {
             }
         }
     } else {
-        $site_error['email'] = 'Please enter a valid email address';
+        $site_error['email'] = 'Please enter a valid email address.';
     }
 }
 ?>
