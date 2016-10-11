@@ -59,7 +59,7 @@ if (filter_has_var(INPUT_POST, 'register')) {
                         <label for="passwd">Password <span class="error"><?php if (isset($site_error['passwd'])) echo $site_error['passwd']; ?></span></label>
                         <input type="password" name="passwd" required>
                         <br>
-                        <p><input type="checkbox" name="remember">Show password </p>
+                        <p><input type="checkbox" name="showpass">Show password </p>
                         <input type="submit" value="Register" name="register">
                         <p>Have an account? <a href="login.php">Sign in</a></p>
                     </form>

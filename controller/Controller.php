@@ -81,4 +81,13 @@ class Controller {
     public function is_valid_username($user_name) {
         return $this->_model->is_username_valid($user_name);
     }
+
+    public function get_email_structure($message)
+    {
+        return $this->_model->mail_content($message);
+    }
+
+    public function is_valid_code($code){
+        return $this->_model->is_reset_valid($code);
+    }
 }
