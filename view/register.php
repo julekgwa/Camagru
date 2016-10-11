@@ -2,9 +2,9 @@
 require_once ('siteconfig.php');
 require_once DIRECTORY . '/../db/db_conn.php';
 if (filter_has_var(INPUT_POST, 'register')) {
-    $user = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $passwd = filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING);
-    if (($email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL))) {
+    $user = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
+    $passwd = trim(filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING));
+    if (($email = trim(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)))) {
         if (strlen($passwd) < 8 || strlen($passwd) > 20) {
             $site_error['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
         }
