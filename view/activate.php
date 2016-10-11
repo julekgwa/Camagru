@@ -14,7 +14,7 @@ require_once (DIRECTORY . '/../db/db_conn.php');
                 <div class="mi-col-xs-12">
                     <?php
                     $id = base64_decode(filter_input(INPUT_GET, 'id'));
-                    $code = filter_input(INPUT_GET, 'activate', FILTER_SANITIZE_STRING);
+                    $code = trim(filter_input(INPUT_GET, 'activate', FILTER_SANITIZE_STRING));
                     if (is_numeric($id) && !empty($code)) {
                         $controller->activate_user($id, $code);
                         if ($controller->getRowCount() == 1) {

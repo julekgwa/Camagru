@@ -3,7 +3,7 @@ require_once('siteconfig.php');
 require_once DIRECTORY . '/../db/db_conn.php';
 //reset password
 if (filter_has_var(INPUT_POST, 'reset')) {
-    if (($email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL))) {
+    if (($email = trim(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)))) {
         $email = trim($email);
         if ($controller->used_email($email)) {
             $code = md5(uniqid(rand(), true)); //create reset code.
