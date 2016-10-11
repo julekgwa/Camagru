@@ -21,7 +21,7 @@
                         <a class="menu" href="#"><i class="fa fa-bars"></i></a>
                         <div class="dropdown-content">
                             <a href="<?php echo SITE . '/view/login.php'; ?>">Login</a>
-                            <a href="<?php echo SITE . '/view/edit_image.php'; ?>">Edit images</a>
+                            <a href="<?php echo SITE . '/view/home.php'; ?>">Edit images</a>
                         </div>
                     <?php endif; ?>
                 </div>

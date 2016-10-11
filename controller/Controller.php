@@ -12,7 +12,7 @@ class Controller {
 
     public function is_logged_in() {
         if ($this->_model->is_logged_on()) {
-            include DIRECTORY . '../view/edit_image.php';
+            include DIRECTORY . '../view/home.php';
         } else {
             include DIRECTORY . '../view/login.php';
         }
