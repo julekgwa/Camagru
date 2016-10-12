@@ -12,7 +12,7 @@ require_once ('view/siteconfig.php');
     <?php require_once('./view/nav.php'); ?>
     <div class="row">
         <div class="mi-col-xs-12 col-sm-6 col-md-4 add-pads">
-            <img src="http://www.w3schools.com/bootstrap/sanfran.jpg">
+            <a href="view/view.php"><img src="http://www.w3schools.com/bootstrap/sanfran.jpg"></a>
             <div class="description">
                 <p>Uploaded by --John</p>
             </div>

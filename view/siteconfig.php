@@ -13,7 +13,7 @@ if (!isset($_SESSION)) {
 
 //set timezone
 date_default_timezone_set('Africa/Johannesburg');
-define('SITE', 'http://localhost/Camagru');
+define('SITE', 'http://localhost:8080/Camagru');
 define('SITEMAIL', 'noreply@localhost.com');
 define('DIRECTORY', __DIR__);
 require_once (DIRECTORY .'/../config/database.php');

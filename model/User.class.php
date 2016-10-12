@@ -29,11 +29,12 @@ class User {
      * @return boolean true if successful.
      */
     public function register($user_name, $user_email, $user_passwd) {
-        $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`, `activated`) VALUES (?, ?, ?, ?)');
+        $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`, `activated`, `user_registered`) VALUES (?, ?, ?, ?, ?)');
         $code = md5(uniqid(rand(), true)); //creating activation code.
         try {
             $passwd_hash = password_hash($user_passwd, PASSWORD_DEFAULT);
-            $stmt->execute(array($user_name, $user_email, $passwd_hash, $code));
+            $date_reg = date("Y-m-d H:i:s");
+            $stmt->execute(array($user_name, $user_email, $passwd_hash, $code, $date_reg));
             $user_id = $this->_db->lastInsertId();
             $this->send_user_mail($user_name, $user_email, $user_id, $code);
             return $stmt;
