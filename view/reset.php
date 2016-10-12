@@ -1,32 +1,38 @@
 <?php
 require_once('siteconfig.php');
 require_once DIRECTORY . '/../db/db_conn.php';
-//reset password
+/**
+ * check if email is valid.
+ * check if the reset code has been sent.
+ * check if email it exits in our database.
+ * generate a reset code and sent an email to the user.
+ * if success redirect to login page, with action set to reset.
+ */
 if (filter_has_var(INPUT_POST, 'reset')) {
     //check if email is valid
     if (($email = trim(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL)))) {
         $email = trim($email); //remove trailing spaces.
-        $stmt = $DB->prepare('SELECT * FROM `users` WHERE `user_email` = ?');
+        $checker = $DB->prepare('SELECT * FROM `users` WHERE `user_email` = ?');
         try {
-            $stmt->execute(array($email));
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $checker->execute(array($email));
+            $row = $checker->fetch(PDO::FETCH_ASSOC);
             if (!empty($row['reset'])) {
-                $site_error['email'] = 'Your reset code has already been emailed to you, use the link provided!';
+                $site_error['email'] = 'Reset code has already been emailed to you, use the link provided!';
             }
-            if (!isset($site_error))
-            {
+            if (!isset($site_error)) {
                 //check if email exits.
+                $user_name = $row['user_name'];
                 if ($controller->used_email($email)) {
                     $code = md5(uniqid(rand(), true)); //create reset code.
                     $stmt = $DB->prepare('UPDATE `users` SET `reset`= ? WHERE `user_email` = ?');
                     try {
                         $stmt->execute(array($code, $email));
-                        $message = "<h2 style='font-family: 'Prociono', serif;'>Hello , $email</h2>
-       <br /><br />
+                        $message = "<h2>Hello , $user_name</h2>
+                            <br /><br />
        Someone requested that the password be reset for Camagru account:
        <br /><br />
        Details:<br>
-        Username: <br>
+        Username: $user_name<br>
         E-mail: $email <br><br>
         If this was a mistake, just ignore this email and nothing will happen.
        <br /><br />
@@ -48,14 +54,20 @@ if (filter_has_var(INPUT_POST, 'reset')) {
                 }
             }
         } catch (PDOException $exc) {
-            echo $exc->getTraceAsString();
+            echo $exc->getTraceAsString(); //display error messages.
         }
     } else {
         $site_error['email'] = 'Please enter a valid email address.';
     }
 }
 
-//set new password
+/**
+ * check the length of the password.
+ * check if the token is valid.
+ * check if the password provided is valid.
+ * then update the password and set token to null.
+ * if success redirect to login page, with action set to changed.
+ */
 if (filter_has_var(INPUT_POST, 'new')) {
     $passwd = filter_input(INPUT_POST, 'newpasswd');
     $code = trim(filter_input(INPUT_GET, 'code'));
