@@ -1,5 +1,5 @@
 <?php
-require_once ('siteconfig.php');
+require_once('siteconfig.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,18 @@ require_once ('siteconfig.php');
         <div class="mi-col-xs-12">
             <p>Image title</p>
             <img src="http://www.w3schools.com/bootstrap/sanfran.jpg">
-            <p>like button</p>
+            <div class="social">
+                <!--like button-->
+                <button class="social-like" >
+                    <span class="like"><i class="fa fa-thumbs-up"></i></span>
+                    <span class="count" >0</span>
+                </button>
+                &nbsp;
+                <button class="social-dislike" >
+                    <span class="dislike" >0</span>
+                    <span class="like"><i class="fa fa-thumbs-down"></i></span>
+                </button>
+            </div>
             <form id="comment_form" method="post" action="">
                 <textarea></textarea>
                 <br>
