@@ -17,7 +17,7 @@ require_once (DIRECTORY . '/../db/db_conn.php');
                     $code = trim(filter_input(INPUT_GET, 'activate', FILTER_SANITIZE_STRING));
                     if (is_numeric($id) && !empty($code)) {
                         $controller->activate_user($id, $code);
-                        if ($controller->getRowCount() == 1) {
+                        if ($controller->get_row_count() == 1) {
                             header('Location: login.php?action=active');
                             exit();
                         } else {

@@ -11,13 +11,15 @@
  *
  * @author julekgwa
  */
-class User {
+class User
+{
 
     private $_db;
     private $_site;
     private $_rowCount;
 
-    function __construct($DB) {
+    function __construct($DB)
+    {
         $this->_db = $DB;
     }
 
@@ -28,8 +30,9 @@ class User {
      * @param string user password.
      * @return boolean true if successful.
      */
-    public function register($user_name, $user_email, $user_passwd) {
-        $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`, `activated`, `user_registered`) VALUES (?, ?, ?, ?, ?)');
+    public function register($user_name, $user_email, $user_passwd)
+    {
+        $stmt = $this->_db->prepare('INSERT INTO `users`(`user_name`, `user_email`, `user_passwd`, `active`, `user_reg_date`) VALUES (?, ?, ?, ?, ?)');
         $code = md5(uniqid(rand(), true)); //creating activation code.
         try {
             $passwd_hash = password_hash($user_passwd, PASSWORD_DEFAULT);
@@ -47,12 +50,14 @@ class User {
     /**
      * @param mixed $site
      */
-    public function set_site($site) {
+    public function set_site($site)
+    {
         $this->_site = $site;
     }
 
-    public function login($user_email, $user_passwd) {
-        $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE (`user_name` = ? OR `user_email` = ?) AND activated = ?');
+    public function login($user_email, $user_passwd)
+    {
+        $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE (`user_name` = ? OR `user_email` = ?) AND active = ?');
         try {
             $stmt->execute(array($user_email, $user_email, '1'));
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -73,7 +78,8 @@ class User {
         }
     }
 
-    public function is_logged_on() {
+    public function is_logged_on()
+    {
         if (isset($_SESSION['logged_on_user'])) {
             return TRUE;
         } else {
@@ -81,7 +87,8 @@ class User {
         }
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_destroy();
         session_unset();
         unset($_SESSION['logged_on_user']);
@@ -89,7 +96,8 @@ class User {
         return true;
     }
 
-    private function send_user_mail($username, $email, $user_id, $code) {
+    private function send_user_mail($username, $email, $user_id, $code)
+    {
         $subject = "Please verify your email address";
         $headers = "From: Camagru <no-reply@camagru.com>\r\n";
         $headers .= "MIME-Version: 1.0\r\n";
@@ -108,12 +116,14 @@ class User {
      * @param string message
      * @param string headers
      */
-    public function send_email($to, $subject, $message, $headers) {
+    public function send_email($to, $subject, $message, $headers)
+    {
         mail($to, $subject, $this->mail_content($message), $headers);
     }
 
-    public function activate($id, $code) {
-        $stmt = $this->_db->prepare("UPDATE `users` SET `activated` = '1' WHERE `user_id` = ? AND `activated` = ?");
+    public function activate($id, $code)
+    {
+        $stmt = $this->_db->prepare("UPDATE `users` SET `active` = '1' WHERE `user_id` = ? AND `active` = ?");
         try {
             $stmt->execute(array($id, $code));
             $this->_rowCount = $stmt->rowCount();
@@ -124,11 +134,13 @@ class User {
         }
     }
 
-    public function rowCount() {
+    public function rowCount()
+    {
         return $this->_rowCount;
     }
 
-    public function is_email_used($email) {
+    public function is_email_used($email)
+    {
         $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `user_email` = ?');
         try {
             $stmt->execute(array($email));
@@ -144,7 +156,8 @@ class User {
         }
     }
 
-    public function is_username_used($user_name) {
+    public function is_username_used($user_name)
+    {
         $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `user_name` = ?');
         try {
             $stmt->execute(array($user_name));
@@ -160,7 +173,8 @@ class User {
         }
     }
 
-    public function is_passwd_valid($passwd) {
+    public function is_passwd_valid($passwd)
+    {
         if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/', $passwd)) {
             return TRUE;
         } else {
@@ -168,7 +182,8 @@ class User {
         }
     }
 
-    public function is_username_valid($user_name) {
+    public function is_username_valid($user_name)
+    {
         if (preg_match('/^[A-Za-z][A-Za-z0-9]*(?:_+[A-Za-z0-9]+)*$/', $user_name)) {
             return TRUE;
         } else {
@@ -176,7 +191,8 @@ class User {
         }
     }
 
-    public function mail_content($message) {
+    public function mail_content($message)
+    {
         $content = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'></head><body>
                     <table width='100%' border='0' cellpadding='0'> <tr><td><table align='center' border='0' cellpadding='0' cellspacing='0'
                     style='border-collapse: collapse; width: 80%; margin: 0 auto; border: 1px solid #cccccc;'> <tr><td bgcolor='#03A9F4' 
@@ -186,7 +202,8 @@ class User {
         return $content;
     }
 
-    public function is_reset_valid($code) {
+    public function is_reset_valid($code)
+    {
         $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `reset` = ?');
         try {
             $stmt->execute(array($code));
@@ -199,6 +216,18 @@ class User {
         } catch (PDOException $e) {
             echo $e->getMessage();
             return FALSE;
+        }
+    }
+
+    public function get_user_id($username)
+    {
+        $stmt  = $this->_db->prepare('SELECT `user_id` FROM `users` WHERE `user_name` = ?');
+        try {
+            $stmt->execute(array($username));
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['user_id'];
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
     }
 

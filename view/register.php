@@ -49,7 +49,7 @@ if (filter_has_var(INPUT_POST, 'register')) {
             <div class="mi-col-xs-12">
                 <div class="login">
                     <h2>Create your Camagru Account</h2>
-                    <form action="" method="post">
+                    <form action="" method="post" autocomplete="off">
                         <label for="username">Username <span class="error"><?php if (isset($site_error['username'])) echo $site_error['username']; ?></span></label>
                         <input type="text" name="username" required>
                         <br>
