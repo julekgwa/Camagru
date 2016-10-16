@@ -1,0 +1,305 @@
+/*CAPTION*/
+.description {
+    position: absolute; /* absolute position (so we can position it where we want)*/
+    bottom: 4px; /* position will be on bottom */
+    background-color: silver;
+    /*font-size: 18px;*/
+    color: white;
+    opacity: 0.8;
+    filter: alpha(opacity=60); /* IE transparency */
+    width: 98%;
+}
+p.description_content {
+    padding: 10px;
+    margin: 0px;
+}
+p.description_content a {
+    text-decoration: none;
+    text-transform: capitalize;
+    display: block;
+    color: #0186ba;
+}
+p.description_content a:hover {
+    color: #fff !important;
+}
+p.description_content:hover {
+    background-color: black;
+}
+p.description_content a:visited {
+    color: red;
+}
+/*END CAPTION*/
+
+footer p {
+    text-align: center;
+    font-style: italic;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+/*.row img {
+    width: 100%;
+}*/
+
+.fa-bars {
+    font-size: 30px;
+}
+.navbar-brand {
+    font-size: 18px;
+}
+
+.pull-right, .navbar-brand {
+    /*background-color: #03A9F4;*/
+    /*height: 35px;*/
+    text-align: center;
+    color: #fff;
+}
+/*.container-search {
+    height: 35px;
+}*/
+
+/*.mi-col-xs-9 {
+    background-color: #03A9F4;
+}*/
+
+.fa-bars, .navbar-brand a {
+    color: #fff;
+}
+
+.navbar-brand img {
+    width: 140px;
+}
+
+.login form {
+    width: 90%;
+    margin: 5px auto;
+}
+
+.login {
+    background-color: #ECEFF1;
+}
+
+.login input:invalid {
+    border-color: red;
+}
+.login input,
+input:valid {
+    border-color: #ccc;
+}
+
+.login input[type=text], .login input[type=password], .login input[type=email] {
+    width: 100%;
+    margin-bottom: 5px;
+    outline: 0;
+    border: 2px solid #B0BEC5;
+    padding: 10px;
+}
+
+.login input[type=submit] {
+    background-color: #03A9F4;
+    width: 100%;
+    outline: 0;
+    padding: 10px;
+    border: 0;
+    color: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#comment_form textarea {
+    width: 100%;
+}
+
+.login h2 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.sub-title {
+    font-size: 12px;
+    text-transform: none;
+    font-style: italic;
+}
+
+label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #B0BEC5;
+    margin-bottom: 10px;
+}
+
+.login p {
+    font-size: 12px;
+    color: #B0BEC5;
+    font-family: 'Prociono', serif;
+}
+.forgot {
+    float: right;
+    font-style: italic;
+    color: red;
+}
+
+.container {
+    background-color: #ECEFF1;
+    border-bottom: 20px;
+}
+
+.login p:nth-child(2) {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+}
+
+.dropdown img {
+    width: 30px;
+    float: right;
+    border-radius: 50%;
+}
+
+.head-cont {
+    background-color: #03A9F4;
+    /*height: 145px;*/
+}
+
+span.error {
+    color: red;
+}
+.success {
+    text-align: center;
+    color: green !important;
+    font-size: 16px !important;
+    font-weight: bold;
+}
+.gallery {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.gallery img {
+    width: 100%;
+}
+
+#comment_form input, #comment_form textarea {
+    border: 4px solid rgba(0,0,0,0.1);
+    padding: 8px 10px;
+    border-radius: 5px;
+    outline: 0;
+}
+
+#comment_form textarea {
+    width: 100%;
+}
+
+#comment_form input[type="submit"] {
+    cursor: pointer;
+    background: -webkit-linear-gradient(top, #efefef, #ddd);
+    background: -moz-linear-gradient(top, #efefef, #ddd);
+    background: -ms-linear-gradient(top, #efefef, #ddd);
+    background: -o-linear-gradient(top, #efefef, #ddd);
+    background: linear-gradient(top, #efefef, #ddd);
+    color: #333;
+    text-shadow: 0px 1px 1px rgba(255,255,255,1);
+    border: 1px solid #ccc;
+}
+
+#comment_form input[type="submit"]:hover {
+    background: -webkit-linear-gradient(top, #eee, #ccc);
+    background: -moz-linear-gradient(top, #eee, #ccc);
+    background: -ms-linear-gradient(top, #eee, #ccc);
+    background: -o-linear-gradient(top, #eee, #ccc);
+    background: linear-gradient(top, #eee, #ccc);
+    border: 1px solid #bbb;
+}
+
+#comment_form input[type="submit"]:active {
+    background: -webkit-linear-gradient(top, #ddd, #aaa);
+    background: -moz-linear-gradient(top, #ddd, #aaa);
+    background: -ms-linear-gradient(top, #ddd, #aaa);
+    background: -o-linear-gradient(top, #ddd, #aaa);
+    background: linear-gradient(top, #ddd, #aaa);
+    border: 1px solid #999;
+}
+
+#comment_form div {
+    margin-bottom: 8px;
+}
+
+/*like and dislike buttons*/
+.social-like, .social-dislike {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 48%;
+    background-color: #03A9F4;
+    color: #fff;
+}
+
+.social-like {
+    border-top-left-radius: 5px;
+    text-align: right;
+}
+
+.social-dislike {
+    border-top-right-radius: 5px;
+    text-align: left;
+}
+
+.count, .like, .dislike-count {
+    padding:10px;
+}
+
+.count, .dislike-count {
+    background-color: #03A9F4;
+    border-radius: 50%;
+    font-size:12px;
+}
+
+.dislike-count {
+    margin-left: -13px;
+}
+
+.count {
+    margin-right: -10px;
+}
+
+.like:hover, .dislike:hover {
+    cursor: pointer;
+    color: #000;
+}
+
+.like:focus,
+.like:active
+ {
+    color: green;
+}
+.dislike:focus,
+.dislike:active {
+    color: red;
+}
+
+.social {
+    padding: 10px;
+}
+
+/*comment area*/
+.comment-area {
+    background-color: #fff;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+}
+.comment-area p {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.author {
+    text-align: right;
+}
