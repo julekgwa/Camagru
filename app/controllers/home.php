@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: julekgwa
@@ -7,4 +8,11 @@
  */
 class Home extends Controller {
 
+    public function index($name) {
+//        $user = $this->model('User');
+//        $user->setName($name);
+        $this->view('templates/header');
+        $this->view('home/index');
+        $this->view('templates/footer');
+    }
 }

@@ -1,0 +1,214 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 16, 2016, 11:07:43 PM
+    Author     : julekgwa
+*/
+
+@import 'https://fonts.googleapis.com/css?family=Prociono';
+
+body {
+    /*margin: 0;*/
+    font-family: 'Prociono', serif;
+}
+
+form input[type=search] {
+    width: 100%;
+}
+
+footer p {
+    text-align: center;
+    font-style: italic;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ECEFF1;
+    border-bottom: 20px;
+}
+
+.logo {
+    width: 140px;
+}
+
+header {
+    display: flex;
+    /*padding: 1em;*/
+    background-color: #03A9F4;
+}
+
+.item {
+    flex: 1;
+}
+
+.item-search {
+    flex: 4;
+}
+
+.item-search, .item-menu {
+    padding: 10px;
+}
+
+.fa-bars {
+    font-size: 30px;
+    color: #fff;
+}
+
+.item-menu {
+    text-align: right;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    right: 0;
+    z-index: 1;
+}
+
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.container-search{
+    overflow: hidden;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding-top: 15px;
+}
+
+.container-search input#search{
+    height: 25px;
+    border: none;
+    font-size: 10pt;
+    float: left;
+    width: 100%;
+    padding-left: 15px;
+}
+
+.container-search input#search::-webkit-input-placeholder {
+    color: #65737e;
+}
+
+.container-search input#search:-moz-placeholder { /* Firefox 18- */
+    color: #65737e;
+}
+
+.container-search input#search::-moz-placeholder {  /* Firefox 19+ */
+    color: #65737e;
+}
+
+.container-search input#search:-ms-input-placeholder {
+    color: #65737e;
+}
+
+.container-search button.icon{
+    border-top-right-radius: 5px;
+    border-radius-topright: 5px;
+    border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
+    background: #232833;
+    height: 25px;
+    color: #4f5b66;
+    opacity: 0;
+    font-size: 10pt;
+    transition: all .55s ease;
+}
+
+.container-search:hover button.icon, .container-search:active button.icon, .container-search:focus button.icon{
+    outline: none;
+    opacity: 1;
+    margin-left: -20px;
+}
+
+.container-search:hover button.icon:hover{
+    background: white;
+}
+
+.login form {
+    width: 90%;
+    margin: 5px auto;
+}
+
+.login {
+    background-color: #ECEFF1;
+}
+
+.login input:invalid {
+    border-color: red;
+}
+.login input,
+input:valid {
+    border-color: #ccc;
+}
+
+.login input[type=text], .login input[type=password], .login input[type=email] {
+    width: 100%;
+    margin-bottom: 5px;
+    outline: 0;
+    border: 2px solid #B0BEC5;
+    padding: 10px;
+}
+
+.login input[type=submit] {
+    background-color: #03A9F4;
+    width: 100%;
+    outline: 0;
+    padding: 10px;
+    border: 0;
+    color: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.login h2 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.sub-title {
+    font-size: 12px;
+    text-transform: none;
+    font-style: italic;
+}
+
+label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #B0BEC5;
+    margin-bottom: 10px;
+}
+
+.login p {
+    font-size: 12px;
+    color: #B0BEC5;
+    font-family: 'Prociono', serif;
+}
+.forgot {
+    float: right;
+    font-style: italic;
+    color: red;
+}
