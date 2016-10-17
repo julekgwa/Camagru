@@ -1,3 +1,8 @@
+<?php
+ if (!Controller::logged_on()) {
+    Controller::redirect(SITE_URL . '/login');
+ }
+ ?>
 <div class="container">
     <div class="row">
         <div class="mi-col-xs-12">
@@ -13,14 +18,6 @@
         </div>
         <div class="mi-col-xs-12">
             <h1>sidebar</h1>
-            <?php
-            $new_user = $this->model('User');
-            $new_user->setDb(Controller::getDb());
-            $new_user->set_site(SITE_URL);
-            if ($new_user->is_logged_on()) {
-            echo 'Yes';
-            }
-            ?>
         </div>
     </div>
 </div>

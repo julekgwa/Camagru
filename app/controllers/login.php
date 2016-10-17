@@ -24,7 +24,7 @@ class Login extends Controller
             $user = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
             $passwd = trim(filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING));
             if ($new_user->login($user, $passwd)) {
-                $this->redirect('/Camagru/public/edit');
+                $this->redirect(SITE_URL . '/edit');
             } else {
                 return 'The username or password is incorrect.';
             }
