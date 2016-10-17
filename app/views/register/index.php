@@ -14,7 +14,7 @@
                 <br>
                 <p><input type="checkbox" name="showpass">Show password </p>
                 <input type="submit" value="Register" name="register">
-                <p>Have an account? <a href="login.php">Sign in</a></p>
+                <p>Have an account? <a href="<?php echo SITE_URL; ?>/login">Sign in</a></p>
             </form>
         </div>
 </div>
