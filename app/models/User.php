@@ -105,7 +105,7 @@ class User
         $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
         $message = "<h2>Dear $username, </h2> <br>";
         $message .= 'Thank you for using Camagru! Please click the link below to verify your email address.<br><br>';
-        $message .= "$this->_site/view/activate.php?id=$decode_id&activate=$code";
+        $message .= "$this->_site/activate/$decode_id/$code";
         $message .= '<br><br>If clicking the link above does not work, copy and paste the URL into a new browser window.<br><br>Thanks and enjoy :)<br><br> All the best,<br> Camagru Team.';
         $this->send_email($email, $subject, $message, $headers);
     }
