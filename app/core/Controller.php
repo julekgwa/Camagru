@@ -32,4 +32,13 @@ class Controller {
     protected function redirect($location){
         header("Location: $location");
     }
+
+    public static function logged_on()
+    {
+        if (isset($_SESSION['logged_on_user'])) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
 }
