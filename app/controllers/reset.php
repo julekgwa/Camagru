@@ -9,6 +9,10 @@ class Reset extends Controller
         if (filter_has_var(INPUT_POST, 'reset')) {
             $site_error = $this->reset_passwd();
         }
+
+        if (filter_has_var(INPUT_POST, 'new')) {
+            $site_error = $this->new_passwd($code);
+        }
         $this->view('templates/header');
         $this->view('reset/index', $site_error);
         $this->view('templates/footer');
@@ -97,16 +101,19 @@ class Reset extends Controller
             $new_user->setDb(Controller::getDb());
             $new_user->set_site(SITE_URL);
             $passwd = filter_input(INPUT_POST, 'newpasswd');
-            $code = trim(filter_input(INPUT_GET, 'code'));
+            $code = trim($code);
             if (strlen($passwd) < 8 || strlen($passwd) > 20) {
                 $site_error['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
+                return $site_error;
             }
             if (!$new_user->is_reset_valid($code)) {
                 $site_error['passwd'] = 'Invalid token provided, please use the link provided in the reset email.';
+                return $site_error;
             }
             if (!isset($site_error)) {
                 if (!$new_user->is_passwd_valid($passwd)) {
                     $site_error['passwd'] = 'Password needs to contain, atleast 1 number and 1 special characters.';
+                    return $site_error;
                 }
                 if (!isset($site_error)) {
                     $hash_passwd = password_hash($passwd, PASSWORD_DEFAULT);
