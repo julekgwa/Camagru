@@ -5,8 +5,8 @@
     <p class="error"><?php if (isset($error_msg)) echo $error_msg; ?></p>
     <p class="success">
         <?php
-        if (isset($_GET)) {
-            $action = filter_input(INPUT_GET, 'action');
+        if (isset($site_error['action'])) {
+            $action = $site_error['action'];
             switch ($action) {
                 case 'active':
                     echo 'Your account is now active you may now log in.';
@@ -33,7 +33,7 @@
         <br>
         <p><input type="checkbox" checked name="remember"> Remember me <span class="forgot"><a href="<?php echo SITE_URL; ?>/reset">Forgotten password</a></span> </p>
         <input type="submit" value="Login" name="login">
-        <p>Don't have an account? <a href="<?php echo SITE_URL; ?>/register">Sign up</a></p>
+        <p>Don't have an account? <a href="<?php echo SITE_URL; ?>/register/">Sign up</a></p>
     </form>
 </div>
 </div>

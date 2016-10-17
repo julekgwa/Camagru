@@ -1,8 +1,7 @@
-
 <div class="container">
         <div class="login">
             <h2>Create your Camagru Account</h2>
-            <form action="" method="post" autocomplete="off">
+            <form action="<?php echo SITE_URL; ?>/register/user" method="post" autocomplete="off">
                 <label for="username">Username <span class="error"><?php if (isset($site_error['username'])) echo $site_error['username']; ?></span></label>
                 <input type="text" name="username" required>
                 <br>

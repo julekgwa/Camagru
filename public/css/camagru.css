@@ -329,3 +329,14 @@ label {
 .author {
     text-align: right;
 }
+
+.success {
+    text-align: center;
+    color: green !important;
+    font-size: 16px !important;
+    font-weight: bold;
+}
+
+span.error {
+    color: red;
+}

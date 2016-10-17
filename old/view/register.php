@@ -1,6 +1,5 @@
 <?php
-require_once ('siteconfig.php');
-require_once DIRECTORY . '/../db/db_conn.php';
+
 if (filter_has_var(INPUT_POST, 'register')) {
     $user = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
     $passwd = trim(filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING));
