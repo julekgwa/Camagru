@@ -2,7 +2,7 @@
     <div class="login">
     <h2>Welcome back!<br>
         <span class="sub-title">Login to your account below</span></h2>
-    <p class="error"><?php if (isset($error_msg)) echo $error_msg; ?></p>
+    <p class="error"><?php if (isset($site_error['wrong_user_cred'])) echo $site_error['wrong_user_cred']; ?></p>
     <p class="success">
         <?php
         if (isset($site_error['action'])) {
