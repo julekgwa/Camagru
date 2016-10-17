@@ -28,7 +28,7 @@ class Model
 
     /**
      *
-     * @param string username for the user.
+     * @param string username for the profile.
      * @param string user registration email.
      * @param string user password.
      * @return boolean true if successful.

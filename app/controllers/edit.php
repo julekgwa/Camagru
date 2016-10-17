@@ -7,4 +7,8 @@ class Edit extends Controller {
         $this->view('edit/index');
         $this->view('templates/footer');
     }
+
+    public function uploads() {
+
+    }
 }

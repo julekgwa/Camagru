@@ -1,5 +1,5 @@
 <?php
-//expire the session if the user is inactive for 30
+//expire the session if the profile is inactive for 30
 //minutes or more
 $expire = 5;
 if (isset($_SESSION['last_login'])) {

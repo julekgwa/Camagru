@@ -25,7 +25,7 @@ class User
 
     /**
      *
-     * @param string username for the user.
+     * @param string username for the profile.
      * @param string user registration email.
      * @param string user password.
      * @return boolean true if successful.
@@ -42,7 +42,7 @@ class User
             $this->send_user_mail($user_name, $user_email, $user_id, $code);
             return $stmt;
         } catch (PDOException $e) {
-            echo $e->getMessage(); //don't forget to display friendly error messages to the user
+            echo $e->getMessage(); //don't forget to display friendly error messages to the profile
             return FALSE;
         }
     }
@@ -73,7 +73,7 @@ class User
             return false;
         } catch (PDOException $e) {
             $error = $e->getMessage();
-            require_once('../view/display_error.php'); //don't forget to display friendly error messages to the user
+            require_once('../view/display_error.php'); //don't forget to display friendly error messages to the profile
             exit();
         }
     }
@@ -151,7 +151,7 @@ class User
                 return FALSE;
             }
         } catch (PDOException $exc) {
-            echo $exc->getMessage(); //display a nice message to the user.
+            echo $exc->getMessage(); //display a nice message to the profile.
             return FALSE;
         }
     }
@@ -168,7 +168,7 @@ class User
                 return FALSE;
             }
         } catch (PDOException $exc) {
-            echo $exc->getMessage(); //display a nice message to the user.
+            echo $exc->getMessage(); //display a nice message to the profile.
             return FALSE;
         }
     }
@@ -196,7 +196,7 @@ class User
         $content = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'></head><body>
                     <table width='100%' border='0' cellpadding='0'> <tr><td><table align='center' border='0' cellpadding='0' cellspacing='0'
                     style='border-collapse: collapse; width: 80%; margin: 0 auto; border: 1px solid #cccccc;'> <tr><td bgcolor='#03A9F4' 
-                    align='center' style='padding: 20px 0 30px 0;'><img src='$this->_site/img/logo.png'></td></tr><tr> <td bgcolor='#ffffff' 
+                    align='center' style='padding: 20px 0 30px 0;'><images src='$this->_site/images/logo.png'></td></tr><tr> <td bgcolor='#ffffff' 
                     style='padding: 40px 30px 40px 30px;'> $message </td> </tr> <tr> <td bgcolor='#03A9F4' style='padding: 20px 20px 20px 20px; color: #ffffff'> &copy; Camagru 2016. 
                     </td> </tr> </table> </td> </tr> </table> </body> </html>";
         return $content;

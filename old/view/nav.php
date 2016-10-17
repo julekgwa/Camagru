@@ -4,7 +4,7 @@
            <div class="head-cont clearfix">
                 <div class="mi-col-xs-2 navbar-brand">
                 <!-- <a href="#">Camagru</a> -->
-                <img src="<?php echo SITE . '/img/logo.png'; ?>">
+                <img src="<?php echo SITE . '/images/logo.png'; ?>">
             </div>
             <div class="mi-col-xs-9">
                 <div class="container-search" style="margin: 0 auto; width: 100%">

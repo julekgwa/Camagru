@@ -1,7 +1,7 @@
 <div class="container">
     <div class="login">
         <h2>Reset your password</h2>
-        <?php if (!isset($_GET['code'])) : ?>
+        <?php if (!isset($site_error['code'])) : ?>
             <form action="" method="post">
                 <label for="email">E-mail <span
                         class="error"><?php if (isset($site_error['email'])) echo $site_error['email']; ?></span></label>

@@ -5,7 +5,7 @@ require_once DIRECTORY . '/../db/db_conn.php';
  * check if email is valid.
  * check if the reset code has been sent.
  * check if email it exits in our database.
- * generate a reset code and sent an email to the user.
+ * generate a reset code and sent an email to the profile.
  * if success redirect to login page, with action set to reset.
  */
 if (filter_has_var(INPUT_POST, 'reset')) {

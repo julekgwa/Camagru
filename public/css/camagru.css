@@ -340,3 +340,21 @@ label {
 span.error {
     color: red;
 }
+
+.login p:nth-child(2) {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+}
+
+.profile {
+    display: flex;
+}
+.info {
+    flex: 1;
+    background-color: greenyellow;
+}
+.uploads {
+    background-color: yellow;
+    flex: 4;
+}

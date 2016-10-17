@@ -12,7 +12,7 @@ if ($controller->is_logged_on() && filter_has_var(INPUT_POST, 'upload'))
     $move_file = DIRECTORY .'/../uploads/' . $image_name;
     $info  = getimagesize($tmp_image_name);
     if ($info === FALSE){
-        $site_error['wrong_type'] = 'Unable to determine image type of uploaded file';
+        $site_error['wrong_type'] = 'Unable to determine images type of uploaded file';
     }
     if (!isset($site_error))
     {

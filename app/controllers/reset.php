@@ -6,6 +6,9 @@ class Reset extends Controller
     public function index($code = null)
     {
         $site_error = [];
+        if ($code) {
+            $site_error['code'] = $code;
+        }
         if (filter_has_var(INPUT_POST, 'reset')) {
             $site_error = $this->reset_passwd();
         }
@@ -22,7 +25,7 @@ class Reset extends Controller
      * check if email is valid.
      * check if the reset code has been sent.
      * check if email it exits in our database.
-     * generate a reset code and sent an email to the user.
+     * generate a reset code and sent an email to the profile.
      * if success redirect to login page, with action set to reset.
      */
     protected function reset_passwd()
