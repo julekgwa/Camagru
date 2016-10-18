@@ -9,7 +9,7 @@
 <div class="container">
     <header>
         <div class="item">
-            <a href="<?php echo SITE_URL;?>"><img class="logo" src="<?php echo SITE_URL; ?>/img/logo.png"></a>
+            <a href="<?php echo SITE_URL;?>"><img class="logo" src="<?php echo SITE_URL; ?>/images/logo.png"></a>
         </div>
         <div class="item-search container-search">
             <form>

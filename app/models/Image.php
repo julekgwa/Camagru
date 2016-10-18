@@ -97,9 +97,9 @@ class Image
 
     public function get_image_by_id($id)
     {
-        $stmt = $this->_db->prepare('SELECT * FROM `images` WHERE `image_id` = ?');
+        $stmt = $this->_db->prepare('SELECT * FROM `images` INNER JOIN users ON users.user_id = images.users_user_id WHERE `image_id` = ?');
         try {
-            $stmt->execuet([$id]);
+            $stmt->execute([$id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row;
         } catch (PDOException $e) {

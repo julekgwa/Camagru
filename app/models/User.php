@@ -230,6 +230,7 @@ class User
             echo $e->getMessage();
         }
     }
+
     public function get_user($username) {
         $stmt = $this->_db->prepare('SELECT * FROM `users` WHERE `user_name` = ?');
         try {
