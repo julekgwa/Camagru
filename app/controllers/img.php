@@ -14,7 +14,10 @@ class Img extends Controller
 
         if (filter_has_var(INPUT_POST, 'add-comment')) {
             if (Controller::logged_on()) {
-                $this->add_comment();
+                $user = $this->model('User');
+                $user->setDB(Controller::$db);
+                $id = $user->get_user_id(filter_var($_SESSION['logged_on_user']));
+                $this->add_comment($id);
             } else {
                 $site_data['nouser'] = 'Please login to comment.';
             }
@@ -24,21 +27,23 @@ class Img extends Controller
         $this->view('templates/footer');
     }
 
-    protected function get_image_info($id) {
-        $image =  $this->model('Image');
+    protected function get_image_info($id)
+    {
+        $image = $this->model('Image');
         $image->setDb(Controller::$db);
         return $image->get_image_by_id($id);
     }
 
-    protected function get_comments($id) {
+    protected function get_comments($id)
+    {
         $comment = $this->model('Comment');
         $comment->setDb(Controller::$db);
         return $comment->get_comments_by_id($id);
     }
 
-    protected function add_comment() {
+    protected function add_comment($user_id)
+    {
         $image_id = filter_input(INPUT_POST, 'image-id');
-        $user_id = filter_input(INPUT_POST, 'user-id');
         $comment = filter_input(INPUT_POST, 'comment');
 
         $new_comment = $this->model('Comment');

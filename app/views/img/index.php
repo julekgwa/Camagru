@@ -17,7 +17,6 @@
         <p><?php if (isset($site_data['nouser'])) echo $site_data['nouser']; ?></p>
         <form id="comment_form" method="post" action="">
             <input type="number" name="image-id" hidden value="<?php echo $site_data['image_id']; ?>">
-            <input type="number" name="user-id" hidden value="<?php echo $site_data['user_id']; ?>">
             <textarea name="comment"></textarea>
             <br>
             <input type="submit" value="Comment" name="add-comment">
