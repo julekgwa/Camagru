@@ -22,6 +22,18 @@ class Img extends Controller
                 $site_data['nouser'] = 'Please login to comment.';
             }
         }
+
+        if (filter_has_var(INPUT_POST, 'vote')) {
+            if (Controller::logged_on()) {
+                $user = $this->model('User');
+                $user->setDB(Controller::$db);
+                $id = $user->get_user_id(filter_var($_SESSION['logged_on_user']));
+                $image_id = filter_input(INPUT_POST, 'like-img');
+                $this->love_hate($image_id, $id);
+            } else {
+                $site_data['nouser'] = 'Please login to comment.';
+            }
+        }
         $this->view('templates/header');
         $this->view('img/index', $site_data);
         $this->view('templates/footer');
@@ -50,5 +62,21 @@ class Img extends Controller
         $new_comment->setDb(Controller::$db);
         $new_comment->set_comment_info($comment, $user_id, $image_id);
         $new_comment->insert_comment();
+    }
+
+    protected function love_hate($image_id, $user_id) {
+        $like = $this->model('ImageLike');
+        $like->setDb(Controller::$db);
+       if (filter_input(INPUT_POST, 'vote') == 'love') {
+           $like->set_like($image_id, $user_id, true);
+           if (!$like->is_like()) {
+               $like->like_hate();
+           }
+       }elseif (filter_input(INPUT_POST, 'vote') == 'hate') {
+           $like->set_like($image_id, $user_id, 0);
+           if($like->is_like()) {
+               $like->like_hate();
+           }
+       }
     }
 }

@@ -4,15 +4,18 @@
         <img src="<?php echo SITE_URL . '/uploads/user-img/' . $site_data['image_url']; ?>">
         <div class="social">
             <!--like button-->
-            <button class="social-like">
-                <span class="like"><i class="fa fa-thumbs-up"></i></span>
-                <span class="count">0</span>
-            </button>
-            &nbsp;
-            <button class="social-dislike">
-                <span class="dislike-count">0</span>
-                <span class="dislike"><i class="fa fa-thumbs-down"></i></span>
-            </button>
+         <form method="post" action="">
+             <input type="number" name="like-img" hidden value="<?php echo $site_data['image_id']; ?>">
+             <button class="social-like" type="submit" name="vote" value="love">
+                 <span class="like"><i class="fa fa-thumbs-up"></i></span>
+                 <span class="count">0</span>
+             </button>
+             &nbsp;
+             <button class="social-dislike" type="submit" name="vote" value="hate">
+                 <span class="dislike-count">0</span>
+                 <span class="dislike"><i class="fa fa-thumbs-down"></i></span>
+             </button>
+         </form>
         </div>
         <p><?php if (isset($site_data['nouser'])) echo $site_data['nouser']; ?></p>
         <form id="comment_form" method="post" action="">

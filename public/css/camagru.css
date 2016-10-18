@@ -337,7 +337,7 @@ label {
     font-weight: bold;
 }
 
-span.error {
+span.error, .nouser {
     color: red;
 }
 
@@ -350,11 +350,17 @@ span.error {
 .profile {
     display: flex;
 }
+
 .info {
     flex: 1;
     background-color: greenyellow;
 }
+
 .uploads {
     background-color: yellow;
     flex: 4;
+}
+
+.author {
+    text-transform: capitalize;
 }
