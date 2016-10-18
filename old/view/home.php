@@ -12,12 +12,12 @@ if ($controller->is_logged_on() && filter_has_var(INPUT_POST, 'upload'))
     $move_file = DIRECTORY .'/../uploads/' . $image_name;
     $info  = getimagesize($tmp_image_name);
     if ($info === FALSE){
-        $site_error['wrong_type'] = 'Unable to determine images type of uploaded file';
+        $site_data['wrong_type'] = 'Unable to determine images type of uploaded file';
     }
-    if (!isset($site_error))
+    if (!isset($site_data))
     {
         if (($info[2] !== IMAGETYPE_JPEG) && ($info[2] !== IMAGETYPE_PNG) && ($info[2] !== IMAGETYPE_GIF)) {
-            $site_error['wrong_type'] = "The selected file $image_name could not be uploaded. Only JPEG, PNG and GIF images are allowed.";
+            $site_data['wrong_type'] = "The selected file $image_name could not be uploaded. Only JPEG, PNG and GIF images are allowed.";
         }
     }
 //    move_uploaded_file($tmp_image_name, $move_file);
@@ -38,7 +38,7 @@ if ($controller->is_logged_on() && filter_has_var(INPUT_POST, 'upload'))
                 <label>Title</label>
                 <input type="text" name="title" required>
                 <br>
-                <label><span class="error"><?php if (isset($site_error)) echo $site_error['wrong_type']; ?></span></label>
+                <label><span class="error"><?php if (isset($site_data)) echo $site_data['wrong_type']; ?></span></label>
                 <br><input type="file" name="photo" required accept="image/*">
                 <input type="submit" name="upload">
             </form>

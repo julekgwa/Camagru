@@ -1,8 +1,8 @@
 <div class="container">
-    <?php if (count($site_error)) : ?>
+    <?php if (count($site_data)) : ?>
     <div class="profile">
         <div class="info">
-            <h3><?php echo $site_error['user_name']; ?></h3>
+            <h3><?php echo $site_data['user_name']; ?></h3>
         </div>
         <div class="uploads">
 uploads

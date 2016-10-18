@@ -8,11 +8,16 @@
  */
 class Home extends Controller {
 
-    public function index($name = '') {
-//        $profile = $this->model('User');
-//        $profile->setName($name);
+    public function index() {
+        $site_data = $this->load_data();
         $this->view('templates/header');
-        $this->view('home/index');
+        $this->view('home/index', $site_data);
         $this->view('templates/footer');
+    }
+
+    protected function load_data() {
+        $image = $this->model('Image');
+        $image->setDb(Controller::$db);
+        return $image->get_images();
     }
 }

@@ -1,22 +1,11 @@
 <div class="gallery">
-    <div class="row">
-        <div class="mi-col-xs-12 col-sm-6 col-md-4 add-pads">
-            <a href="view/view.php"><img src="http://www.w3schools.com/bootstrap/sanfran.jpg"></a>
-            <div class="description">
-                <p>Uploaded by --John</p>
+    <?php if ($site_data) : ?>
+        <?php foreach ($site_data as $image) : ?>
+            <div class="item">
+                <img src="<?php echo SITE_URL . '/uploads/user-img/' . $image['image_url']; ?>">
+                <p class="uploader"><?php echo $image['image_title'] . ' - <a href="' . SITE_URL . '/profile/'
+                        . $image['user_name'] . '">' . $image['user_name'] . '</a>'; ?></p>
             </div>
-        </div>
-        <div class="mi-col-xs-12 col-sm-6 col-md-4 add-pads">
-            <img src="http://www.w3schools.com/bootstrap/newyork.jpg">
-            <div class="description">
-                <p>Uploaded by --John</p>
-            </div>
-        </div>
-        <div class="mi-col-xs-12 col-sm-6 col-md-4 add-pads">
-            <img src="http://www.w3schools.com/bootstrap/paris.jpg">
-            <div class="description">
-                <p>Uploaded by --John</p>
-            </div>
-        </div>
-</div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>

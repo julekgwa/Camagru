@@ -22,7 +22,7 @@ class Controller {
         return self::$db;
     }
 
-    protected function view($view, $site_error = [])
+    protected function view($view, $site_data = [])
     {
         if (file_exists('../app/views/' . $view . '.php')){
             require_once '../app/views/' . $view . '.php';

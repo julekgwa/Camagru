@@ -5,13 +5,13 @@ class Login extends Controller
 
     public function index($action = null)
     {
-        $site_error = [];
+        $site_data = [];
         if ($action) {
-            $site_error['action'] = $action;
+            $site_data['action'] = $action;
         }
-        $site_error['wrong_user_cred'] = $this->login_user();
+        $site_data['wrong_user_cred'] = $this->login_user();
         $this->view('templates/header');
-        $this->view('login/index', $site_error);
+        $this->view('login/index', $site_data);
         $this->view('templates/footer');
     }
 

@@ -17,9 +17,9 @@ if (filter_has_var(INPUT_POST, 'reset')) {
             $checker->execute(array($email));
             $row = $checker->fetch(PDO::FETCH_ASSOC);
             if (!empty($row['reset'])) {
-                $site_error['email'] = 'Reset code has already been emailed to you, use the link provided!';
+                $site_data['email'] = 'Reset code has already been emailed to you, use the link provided!';
             }
-            if (!isset($site_error)) {
+            if (!isset($site_data)) {
                 //check if email exits.
                 $user_name = $row['user_name'];
                 if ($controller->used_email($email)) {
@@ -50,14 +50,14 @@ if (filter_has_var(INPUT_POST, 'reset')) {
                         echo $exc->getTraceAsString(); //display error message here.
                     }
                 } else {
-                    $site_error['email'] = 'Email provided is not recognised.';
+                    $site_data['email'] = 'Email provided is not recognised.';
                 }
             }
         } catch (PDOException $exc) {
             echo $exc->getTraceAsString(); //display error messages.
         }
     } else {
-        $site_error['email'] = 'Please enter a valid email address.';
+        $site_data['email'] = 'Please enter a valid email address.';
     }
 }
 
@@ -72,16 +72,16 @@ if (filter_has_var(INPUT_POST, 'new')) {
     $passwd = filter_input(INPUT_POST, 'newpasswd');
     $code = trim(filter_input(INPUT_GET, 'code'));
     if (strlen($passwd) < 8 || strlen($passwd) > 20) {
-        $site_error['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
+        $site_data['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
     }
     if (!$controller->is_valid_code($code)) {
-        $site_error['passwd'] = 'Invalid token provided, please use the link provided in the reset email.';
+        $site_data['passwd'] = 'Invalid token provided, please use the link provided in the reset email.';
     }
-    if (!isset($site_error)) {
+    if (!isset($site_data)) {
         if (!$controller->is_valid_passwd($passwd)) {
-            $site_error['passwd'] = 'Password needs to contain, atleast 1 number and 1 special characters.';
+            $site_data['passwd'] = 'Password needs to contain, atleast 1 number and 1 special characters.';
         }
-        if (!isset($site_error)) {
+        if (!isset($site_data)) {
             $hash_passwd = password_hash($passwd, PASSWORD_DEFAULT);
             $stmt = $DB->prepare('UPDATE `users` SET `user_passwd`= ? ,`reset` = NULL WHERE `reset` = ?');
             try {
@@ -108,7 +108,7 @@ if (filter_has_var(INPUT_POST, 'new')) {
                     <?php if (!isset($_GET['code'])) : ?>
                         <form action="" method="post">
                             <label for="email">E-mail <span
-                                    class="error"><?php if (isset($site_error['email'])) echo $site_error['email']; ?></span></label>
+                                    class="error"><?php if (isset($site_data['email'])) echo $site_data['email']; ?></span></label>
                             <input type="email" name="email" required>
                             <br>
                             <input type="submit" value="Reset Password" name="reset">
@@ -117,7 +117,7 @@ if (filter_has_var(INPUT_POST, 'new')) {
                     <?php else: ?>
                         <form action="" method="post">
                             <label for="email">Enter new password <span
-                                    class="error"><?php if (isset($site_error['passwd'])) echo $site_error['passwd']; ?></span></label>
+                                    class="error"><?php if (isset($site_data['passwd'])) echo $site_data['passwd']; ?></span></label>
                             <input type="password" name="newpasswd" required>
                             <br>
                             <p><input type="checkbox" name="showpass">Show password </p>

@@ -5,19 +5,19 @@ class Reset extends Controller
 
     public function index($code = null)
     {
-        $site_error = [];
+        $site_data = [];
         if ($code) {
-            $site_error['code'] = $code;
+            $site_data['code'] = $code;
         }
         if (filter_has_var(INPUT_POST, 'reset')) {
-            $site_error = $this->reset_passwd();
+            $site_data = $this->reset_passwd();
         }
 
         if (filter_has_var(INPUT_POST, 'new')) {
-            $site_error = $this->new_passwd($code);
+            $site_data = $this->new_passwd($code);
         }
         $this->view('templates/header');
-        $this->view('reset/index', $site_error);
+        $this->view('reset/index', $site_data);
         $this->view('templates/footer');
     }
 
@@ -42,10 +42,10 @@ class Reset extends Controller
                     $checker->execute(array($email));
                     $row = $checker->fetch(PDO::FETCH_ASSOC);
                     if (!empty($row['reset'])) {
-                        $site_error['email'] = 'Reset code has already been emailed to you, use the link provided!';
-                        return $site_error;
+                        $site_data['email'] = 'Reset code has already been emailed to you, use the link provided!';
+                        return $site_data;
                     }
-                    if (!isset($site_error)) {
+                    if (!isset($site_data)) {
                         //check if email exits.
                         $user_name = $row['user_name'];
                         if ($new_user->is_email_used($email)) {
@@ -76,16 +76,16 @@ class Reset extends Controller
                                 echo $exc->getTraceAsString(); //display error message here.
                             }
                         } else {
-                            $site_error['email'] = 'Email provided is not recognised.';
-                            return $site_error;
+                            $site_data['email'] = 'Email provided is not recognised.';
+                            return $site_data;
                         }
                     }
                 } catch (PDOException $exc) {
                     echo $exc->getTraceAsString(); //display error messages.
                 }
             } else {
-                $site_error['email'] = 'Please enter a valid email address.';
-                return $site_error;
+                $site_data['email'] = 'Please enter a valid email address.';
+                return $site_data;
             }
         }
     }
@@ -106,19 +106,19 @@ class Reset extends Controller
             $passwd = filter_input(INPUT_POST, 'newpasswd');
             $code = trim($code);
             if (strlen($passwd) < 8 || strlen($passwd) > 20) {
-                $site_error['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
-                return $site_error;
+                $site_data['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
+                return $site_data;
             }
             if (!$new_user->is_reset_valid($code)) {
-                $site_error['passwd'] = 'Invalid token provided, please use the link provided in the reset email.';
-                return $site_error;
+                $site_data['passwd'] = 'Invalid token provided, please use the link provided in the reset email.';
+                return $site_data;
             }
-            if (!isset($site_error)) {
+            if (!isset($site_data)) {
                 if (!$new_user->is_passwd_valid($passwd)) {
-                    $site_error['passwd'] = 'Password needs to contain, atleast 1 number and 1 special characters.';
-                    return $site_error;
+                    $site_data['passwd'] = 'Password needs to contain, atleast 1 number and 1 special characters.';
+                    return $site_data;
                 }
-                if (!isset($site_error)) {
+                if (!isset($site_data)) {
                     $hash_passwd = password_hash($passwd, PASSWORD_DEFAULT);
                     $stmt = Controller::$db->prepare('UPDATE `users` SET `user_passwd`= ? ,`reset` = NULL WHERE `reset` = ?');
                     try {

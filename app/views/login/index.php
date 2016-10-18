@@ -2,11 +2,11 @@
     <div class="login">
     <h2>Welcome back!<br>
         <span class="sub-title">Login to your account below</span></h2>
-    <p class="error"><?php if (isset($site_error['wrong_user_cred'])) echo $site_error['wrong_user_cred']; ?></p>
+    <p class="error"><?php if (isset($site_data['wrong_user_cred'])) echo $site_data['wrong_user_cred']; ?></p>
     <p class="success">
         <?php
-        if (isset($site_error['action'])) {
-            $action = $site_error['action'];
+        if (isset($site_data['action'])) {
+            $action = $site_data['action'];
             switch ($action) {
                 case 'active':
                     echo 'Your account is now active you may now log in.';
