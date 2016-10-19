@@ -38,7 +38,7 @@ class ImageLike
     }
 
     public function like_hate($col, $update_col) {
-        $sql = "INSERT INTO `image_likes`(`status`, `images_image_id`, `user_id`, $update_col) VALUES (0, 2, 1, 1) ON DUPLICATE KEY UPDATE $col = FALSE, $update_col = CASE WHEN $update_col = TRUE THEN FALSE WHEN $update_col = FALSE THEN TRUE END";
+        $sql = "INSERT INTO `image_likes`(`status`, `images_image_id`, `user_id`, $update_col) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE $col = FALSE, $update_col = CASE WHEN $update_col = TRUE THEN FALSE WHEN $update_col = FALSE THEN TRUE END";
         $stmt = $this->_db->prepare($sql);
         try {
             $stmt->execute([$this->_like, $this->_user_id, $this->_image_id, $this->_like]);
