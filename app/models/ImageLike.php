@@ -27,27 +27,24 @@ class ImageLike
         $this->_like = $like;
     }
     public function is_like() {
-        $stmt  = $this->_db->prepare('SELECT `image_like` FROM `image_likes` WHERE `images_image_id` = ? AND `user_id` = ?');
+        $stmt  = $this->_db->prepare('SELECT `status` FROM `image_likes` WHERE `images_image_id` = ? AND `user_id` = ?');
         try {
             $stmt->execute([$this->_image_id, $this->_user_id]);
             $like = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $like['image_like'];
+            return $like['status'];
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
 
-    public function like_hate() {
-        $stmt = $this->_db->prepare('UPDATE `image_likes` SET `image_like`= ? WHERE `user_id` = ? AND `images_image_id` = ?');
+    public function like_hate($col, $update_col) {
+        $sql = "INSERT INTO `image_likes`(`status`, `images_image_id`, `user_id`, $update_col) VALUES (0, 2, 1, 1) ON DUPLICATE KEY UPDATE $col = FALSE, $update_col = CASE WHEN $update_col = TRUE THEN FALSE WHEN $update_col = FALSE THEN TRUE END";
+        $stmt = $this->_db->prepare($sql);
         try {
-            $stmt->execute([$this->_like, $this->_user_id, $this->_image_id]);
+            $stmt->execute([$this->_like, $this->_user_id, $this->_image_id, $this->_like]);
             return true;
         } catch (PDOException $e) {
             return false;
         }
-    }
-
-    public function love() {
-
     }
 }
