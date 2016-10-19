@@ -26,23 +26,35 @@ class ImageLike
         $this->_image_id = $image_id;
         $this->_like = $like;
     }
-    public function is_like() {
-        $stmt  = $this->_db->prepare('SELECT `status` FROM `image_likes` WHERE `images_image_id` = ? AND `user_id` = ?');
+
+    public function like_hate($col, $update_col) {
+        $sql = "INSERT INTO `image_likes`(`images_image_id`, `user_id`, $update_col) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE $col = FALSE, $update_col = CASE WHEN $update_col = TRUE THEN FALSE WHEN $update_col = FALSE THEN TRUE END";
+        $stmt = $this->_db->prepare($sql);
         try {
-            $stmt->execute([$this->_image_id, $this->_user_id]);
-            $like = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $like['status'];
+            $stmt->execute([ $this->_image_id, $this->_user_id, $this->_like]);
+            return true;
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            return false;
         }
     }
 
-    public function like_hate($col, $update_col) {
-        $sql = "INSERT INTO `image_likes`(`status`, `images_image_id`, `user_id`, $update_col) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE $col = FALSE, $update_col = CASE WHEN $update_col = TRUE THEN FALSE WHEN $update_col = FALSE THEN TRUE END";
-        $stmt = $this->_db->prepare($sql);
+    public function get_likes($db) {
+        $stmt = $db->prepare('SELECT COUNT(*) AS `total` FROM `image_likes` WHERE `image_like_love` = true');
         try {
-            $stmt->execute([$this->_like, $this->_user_id, $this->_image_id, $this->_like]);
-            return true;
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['total'];
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function get_dislikes($db) {
+        $stmt = $db->prepare('SELECT COUNT(*) AS `total` FROM `image_likes` WHERE `image_like_hate` = true');
+        try {
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['total'];
         } catch (PDOException $e) {
             return false;
         }

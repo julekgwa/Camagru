@@ -10,6 +10,8 @@ class Img extends Controller
             if (($comments = $this->get_comments($id))) {
                 $site_data['comments'] = $comments;
             }
+            $site_data['love'] = $this->likes();
+            $site_data['hate'] = $this->dislikes();
         }
 
         if (filter_has_var(INPUT_POST, 'add-comment')) {
@@ -46,6 +48,16 @@ class Img extends Controller
         return $image->get_image_by_id($id);
     }
 
+    protected function likes() {
+        $likes = $this->model('ImageLike');
+        return $likes->get_likes(Controller::$db);
+    }
+
+    protected function dislikes() {
+        $likes = $this->model('ImageLike');
+        return $likes->get_dislikes(Controller::$db);
+    }
+
     protected function get_comments($id)
     {
         $comment = $this->model('Comment');
@@ -69,14 +81,10 @@ class Img extends Controller
         $like->setDb(Controller::$db);
        if (filter_input(INPUT_POST, 'vote') == 'love') {
            $like->set_like($image_id, $user_id, true);
-           if (!$like->is_like()) {
-               $like->like_hate();
-           }
+               $like->like_hate('image_like_hate', 'image_like_love');
        }elseif (filter_input(INPUT_POST, 'vote') == 'hate') {
            $like->set_like($image_id, $user_id, 0);
-           if($like->is_like()) {
-               $like->like_hate();
-           }
+               $like->like_hate('image_like_love', 'image_like_hate');
        }
     }
 }

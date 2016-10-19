@@ -8,11 +8,11 @@
              <input type="number" name="like-img" hidden value="<?php echo $site_data['image_id']; ?>">
              <button class="social-like" type="submit" name="vote" value="love">
                  <span class="like"><i class="fa fa-thumbs-up"></i></span>
-                 <span class="count">0</span>
+                 <span class="count"><?php if (isset($site_data['love'])) echo $site_data['love']; ?></span>
              </button>
              &nbsp;
              <button class="social-dislike" type="submit" name="vote" value="hate">
-                 <span class="dislike-count">0</span>
+                 <span class="dislike-count"><?php if (isset($site_data['hate'])) echo $site_data['hate']; ?></span>
                  <span class="dislike"><i class="fa fa-thumbs-down"></i></span>
              </button>
          </form>

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var url = 'http:\/\/localhost:8080\/Camagru\/public\/';
+var url = 'http:\/\/localhost\/Camagru\/public\/';
 var form = document.forms.namedItem('reg_user');
 form.addEventListener('submit', function (e) {
     var data = new FormData(form);
