@@ -3,7 +3,7 @@
 class Register extends Controller
 {
 
-    public function index($siter_error = [])
+    public function index($site_data = [])
     {
         if (filter_has_var(INPUT_POST, 'register')) {
             $new_user_class = $this->model('User');
@@ -12,10 +12,10 @@ class Register extends Controller
             $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
             $passwd = trim(filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING));
             $email = trim(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
-
+            $site_data = $this->register_user($email, $new_user_class, $passwd, $username);
         }
         $this->view('templates/header');
-        $this->view('register/index', $siter_error);
+        $this->view('register/index', $site_data);
         $this->view('templates/footer');
     }
 
@@ -27,7 +27,7 @@ class Register extends Controller
                 $site_data['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
             }
 
-            if (strlen($username) < 4) {
+            if (strlen($username) < 2) {
                 $site_data['username'] = 'Username is too short, must be atleast 4 characters long.';
             }
             if (!isset($site_data)) {
@@ -46,6 +46,7 @@ class Register extends Controller
                     }
                     if (!isset($site_data)) {
                         if ($new_user_class->register($username, $email, $passwd)) {
+                            echo 'about to register';
                             $this->redirect(SITE_URL . '/login/registered');
                         } else {
                             $site_data['username'] = 'Something went wrong';
@@ -57,6 +58,10 @@ class Register extends Controller
             $site_data['email'] = 'Please enter a valid email address.';
         }
         return $site_data;
+    }
+
+    public function reg_ajax() {
+        echo 'Ajax';
     }
 }
 
