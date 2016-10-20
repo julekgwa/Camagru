@@ -48,12 +48,14 @@ class Img extends Controller
         return $image->get_image_by_id($id);
     }
 
-    protected function likes() {
+    protected function likes()
+    {
         $likes = $this->model('ImageLike');
         return $likes->get_likes(Controller::$db);
     }
 
-    protected function dislikes() {
+    protected function dislikes()
+    {
         $likes = $this->model('ImageLike');
         return $likes->get_dislikes(Controller::$db);
     }
@@ -76,15 +78,35 @@ class Img extends Controller
         $new_comment->insert_comment();
     }
 
-    protected function love_hate($image_id, $user_id) {
+    protected function love_hate($image_id, $user_id)
+    {
         $like = $this->model('ImageLike');
         $like->setDb(Controller::$db);
-       if (filter_input(INPUT_POST, 'vote') == 'love') {
-           $like->set_like($image_id, $user_id, true);
-               $like->like_hate('image_like_hate', 'image_like_love');
-       }elseif (filter_input(INPUT_POST, 'vote') == 'hate') {
-           $like->set_like($image_id, $user_id, 0);
-               $like->like_hate('image_like_love', 'image_like_hate');
-       }
+        if (filter_input(INPUT_POST, 'vote') == 'love') {
+            $like->set_like($image_id, $user_id, true);
+            $like->like_hate('image_like_hate', 'image_like_love');
+        } elseif (filter_input(INPUT_POST, 'vote') == 'hate') {
+            $like->set_like($image_id, $user_id, 0);
+            $like->like_hate('image_like_love', 'image_like_hate');
+        }
+    }
+
+    public function like_ajax()
+    {
+        if (filter_has_var(INPUT_POST, 'vote')) {
+            if (Controller::logged_on()) {
+                $user = $this->model('User');
+                $user->setDB(Controller::$db);
+                $id = $user->get_user_id(filter_var($_SESSION['logged_on_user']));
+                $image_id = filter_input(INPUT_POST, 'like-img');
+                $this->love_hate($image_id, $id);
+                $site_data['results'] = 'success.';
+                $site_data['likes'] = $this->likes();
+                $site_data['dislikes'] = $this->dislikes();
+                echo json_encode($site_data);
+            } else {
+                $site_data['nouser'] = 'Please login to comment.';
+            }
+        }
     }
 }

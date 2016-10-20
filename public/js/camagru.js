@@ -137,6 +137,37 @@ window.onload = function () {
             e.preventDefault();
         }, false);
     }
+
+    //like and dislike buttons
+    var like = document.forms.namedItem('love-hate');
+    if (like) {
+        like.addEventListener('submit', function (e) {
+            var data = new FormData(like);
+            var request = new XMLHttpRequest();
+            request.open('POST', url + 'img/like_ajax', true);
+            request.onload = function (event) {
+                if (request.status == 200) {
+                    var res = JSON.parse(request.responseText);
+                    if (res.hasOwnProperty('nouser')) {
+                        document.getElementById('nouser').innerHTML = res.nouser;
+                    }else {
+                        var likes = document.getElementById('likes');
+                        var dislikes = document.getElementById('dislikes');
+                        likes.innerHTML = res.likes;
+                        dislikes.innerHTML = res.dislikes;
+                    }
+                }
+            };
+            request.send(data);
+            e.preventDefault();
+        })
+    }
+
+    //comments with ajax
+    var opinion = document.forms.namedItem('opinion');
+    if (opinion) {
+
+    }
 }
 
 //validate passwod
