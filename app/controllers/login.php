@@ -15,7 +15,7 @@ class Login extends Controller
         $this->view('templates/footer');
     }
 
-    private function login_user()
+    private function login_user($ajax  = '')
     {
         if (filter_has_var(INPUT_POST, 'login')) {
             $new_user = $this->model('User');
@@ -24,11 +24,25 @@ class Login extends Controller
             $user = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
             $passwd = trim(filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING));
             if ($new_user->login($user, $passwd)) {
-                $this->redirect(SITE_URL . '/edit');
+                if ($ajax) {
+                    $site_data['results'] = 'success';
+                    echo json_encode($site_data);
+                    return true;
+                }else {
+                    $this->redirect(SITE_URL . '/edit');
+                }
             } else {
+                if (!$ajax){
                 return 'The username or password is incorrect.';
+                }else {
+                    $site_data['results'] = 'The username or password is incorrect.';
+                    return false;
+                }
             }
         }
     }
 
+    private function login_user_ajax() {
+        $this->login_user(1);
+    }
 }

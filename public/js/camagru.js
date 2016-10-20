@@ -5,45 +5,49 @@
  */
 
 var url = 'http:\/\/localhost\/Camagru\/public\/';
+
+//Ajax registration
 var form = document.forms.namedItem('reg_user');
-form.addEventListener('submit', function (e) {
-    if (validatePassword('passwd', 'passwd-error') && validateUsername('username', 'user-error') && validateEmail('email', 'email-error')) {
-        var data = new FormData(form);
-        var req = new XMLHttpRequest();
-        var btn = document.getElementById('register');
-        btn.value = 'Registering, Please wait...';
+if (form) {
+    form.addEventListener('submit', function (e) {
+        if (validatePassword('passwd', 'passwd-error') && validateUsername('username', 'user-error') && validateEmail('email', 'email-error')) {
+            var data = new FormData(form);
+            var req = new XMLHttpRequest();
+            var btn = document.getElementById('register');
+            btn.value = 'Registering, Please wait...';
 
-        req.open('POST', url + 'register/reg_ajax', true);
-        req.onload = function (event) {
-            if (req.status == 200) {
-                var result = JSON.parse(req.responseText);
-                if (result.hasOwnProperty('results')) {
-                    if (result.results == 'success') {
-                        window.location = url + 'login\/registered';
+            req.open('POST', url + 'register/reg_ajax', true);
+            req.onload = function (event) {
+                if (req.status == 200) {
+                    var result = JSON.parse(req.responseText);
+                    if (result.hasOwnProperty('results')) {
+                        if (result.results == 'success') {
+                            window.location = url + 'login\/registered';
+                        }
                     }
-                }
-                if (result.hasOwnProperty('email')) {
-                    var email = document.getElementById('email-error');
-                    email.innerHTML = result.email;
-                }
-                if (result.hasOwnProperty('passwd')) {
-                    var passwd = document.getElementById('passwd-error');
-                    passwd.innerHTML = result.passwd;
-                }
+                    if (result.hasOwnProperty('email')) {
+                        var email = document.getElementById('email-error');
+                        email.innerHTML = result.email;
+                    }
+                    if (result.hasOwnProperty('passwd')) {
+                        var passwd = document.getElementById('passwd-error');
+                        passwd.innerHTML = result.passwd;
+                    }
 
-                if (result.hasOwnProperty('username')) {
-                    var username = document.getElementById('user-error');
-                    username.innerHTML = result.username;
+                    if (result.hasOwnProperty('username')) {
+                        var username = document.getElementById('user-error');
+                        username.innerHTML = result.username;
+                    }
+                    btn.value = 'Register';
+                } else {
+                    alert('Error');
                 }
-                btn.value = 'Register';
-            } else {
-                alert('Error');
-            }
-        };
-        req.send(data);
-    }
-    e.preventDefault();
-}, false);
+            };
+            req.send(data);
+        }
+        e.preventDefault();
+    }, false);
+}
 
 //validate passwod
 function validatePassword(passwdId, errorId) {
@@ -99,4 +103,27 @@ function validateEmail(emailId, errorId) {
     }
     return true;
 
+}
+
+//ajax login
+var login = document.forms.namedItem('login_user');
+if (login) {
+    login.addEventListener('submit', function (e) {
+        if (validatePassword('passwd', 'passwd-error')) {
+            var data = new FormData(form);
+            var userlogin = new XMLHttpRequest();
+            var btn = document.getElementById('register');
+            btn.value = 'login, Please wait...';
+
+            userlogin.send('POST', url + 'login/login_user_ajax', true);
+            userlogin.onload = function (event) {
+                if (userlogin.status == 200) {
+                    var result = JSON.parse(userlogin.responseText);
+                    console.log(result);
+                    btn.value = 'Login';
+                }
+            }
+        };
+        e.preventDefault();
+    }, false);
 }
