@@ -36,6 +36,16 @@ class Comment
         }
     }
 
+    public function get_comment_by_id($id) {
+        $stmt = $this->_db->prepare('SELECT comments.comment, users.user_name FROM `comments` INNER JOIN users ON users.user_id = comments.users_id WHERE `comment_id` = ?');
+        try {
+            $stmt->execute([$id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row;
+        }catch (PDOException $e) {
+            return false;
+        }
+    }
     public function insert_comment() {
         $stmt = $this->_db->prepare('INSERT INTO `comments`( `images_image_id`, `comment`, `users_id`) VALUES (?, ?, ?)');
         try {
@@ -44,5 +54,9 @@ class Comment
         } catch (PDOException $e) {
             return false;
         }
+    }
+
+    public function get_last_id() {
+        return $this->_db->lastInsertId();
     }
 }
