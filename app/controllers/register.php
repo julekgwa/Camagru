@@ -21,9 +21,6 @@ class Register extends Controller
 
     public function register_user($email, $new_user_class, $passwd, $username, $ajax = '')
     {
-//        if ($ajax) {
-//            $site_data['result'] = 'what?';
-//        }
         if (filter_var($email, FILTER_SANITIZE_EMAIL)) {
             if (strlen($passwd) < 8 || strlen($passwd) > 20) {
                 $site_data['passwd'] = 'Password is too short, must be between 8 and 20 characters.';

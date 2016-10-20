@@ -77,6 +77,66 @@ window.onload = function () {
             e.preventDefault();
         }, false);
     }
+
+    //ajax reset password
+    var resetPass = document.forms.namedItem('reset-passwd');
+    if (resetPass) {
+        resetPass.addEventListener('submit', function (e) {
+            if (validateEmail('reset-email', 'reset-email-error')) {
+                var data = new FormData(resetPass);
+                var reset = new XMLHttpRequest();
+                var btn = document.getElementById('reset-sub');
+                btn.value = 'Resetting, please wait...';
+                reset.open('POST', url + 'reset/reset_passwd_ajax', true);
+                reset.onload = function (event) {
+                    if (reset.status == 200) {
+                        var res = JSON.parse(reset.responseText);
+                        if (res.hasOwnProperty('results')) {
+                            if (res.results == 'success.') {
+                                window.location = url + 'login/reset';
+                            }else if (res.results == 'email') {
+                                var error = document.getElementById('reset-email-error');
+                                error.innerHTML = res.results;
+                            }
+                        }
+                        btn.value = 'Reset password';
+                    }
+                };
+                reset.send(data);
+            }
+            e.preventDefault();
+        }, false);
+    }
+
+    //set new password
+    var newPass = document.forms.namedItem('new-passwd');
+    if (newPass) {
+        newPass.addEventListener('submit', function (e) {
+            if (validatePassword('new-passwd-set', 'new-passwd-error')) {
+                var data = new FormData(newPass);
+                var pass = new XMLHttpRequest();
+                var btn = document.getElementById('new-pass-sub');
+                btn.value = 'Setting new password, please wait...';
+                pass.open('POST', url + 'reset/new_passwd_ajax', true);
+                pass.onload = function (event) {
+                    if (pass.status == 200) {
+                        var res = JSON.parse(pass.responseText);
+                        if (res.hasOwnProperty('results')) {
+                            if (res.results == 'success.') {
+                                window.location = url + 'login/changed';
+                            }
+                        }else  if (res.hasOwnProperty('passwd')) {
+                            var error = document.getElementById('new-passwd-error');
+                            error.innerHTML = res.passwd;
+                        }
+                    }
+                    btn.value = 'Set new password';
+                };
+                pass.send(data);
+            }
+            e.preventDefault();
+        }, false);
+    }
 }
 
 //validate passwod
@@ -133,4 +193,14 @@ function validateEmail(emailId, errorId) {
     }
     return true;
 
+}
+
+function hideElement(hideId) {
+    var hide = document.getElementById(hideId);
+    hide.style.display = 'none';
+}
+
+function unHide(unhideId) {
+    var h = document.getElementById(unhideId);
+    h.style.display = 'block';
 }
