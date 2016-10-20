@@ -25,7 +25,7 @@ class Login extends Controller
             $passwd = trim(filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING));
             if ($new_user->login($user, $passwd)) {
                 if ($ajax) {
-                    $site_data['results'] = 'success';
+                    $site_data['results'] = 'success.';
                     echo json_encode($site_data);
                     return true;
                 }else {
@@ -36,13 +36,14 @@ class Login extends Controller
                 return 'The username or password is incorrect.';
                 }else {
                     $site_data['results'] = 'The username or password is incorrect.';
+                    echo json_encode($site_data);
                     return false;
                 }
             }
         }
     }
 
-    private function login_user_ajax() {
+    public function login_user_ajax() {
         $this->login_user(1);
     }
 }

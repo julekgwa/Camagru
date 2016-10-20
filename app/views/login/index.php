@@ -32,7 +32,7 @@
         <input type="password" name="passwd" id="passwd" required>
         <br>
         <p><input type="checkbox" checked name="remember"> Remember me <span class="forgot"><a href="<?php echo SITE_URL; ?>/reset">Forgotten password</a></span> </p>
-        <input type="submit" value="Login" name="login">
+        <input type="submit" id="login" value="Login" name="login">
         <p>Don't have an account? <a href="<?php echo SITE_URL; ?>/register/">Sign up</a></p>
     </form>
 </div>
