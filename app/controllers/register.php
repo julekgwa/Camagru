@@ -19,9 +19,11 @@ class Register extends Controller
         $this->view('templates/footer');
     }
 
-    public function register_user($email, $new_user_class, $passwd, $username)
+    public function register_user($email, $new_user_class, $passwd, $username, $ajax = '')
     {
-
+//        if ($ajax) {
+//            $site_data['result'] = 'what?';
+//        }
         if (filter_var($email, FILTER_SANITIZE_EMAIL)) {
             if (strlen($passwd) < 8 || strlen($passwd) > 20) {
                 $site_data['passwd'] = 'Password is too short, must be between 8 and 20 characters.';
@@ -46,8 +48,13 @@ class Register extends Controller
                     }
                     if (!isset($site_data)) {
                         if ($new_user_class->register($username, $email, $passwd)) {
-                            echo 'about to register';
-                            $this->redirect(SITE_URL . '/login/registered');
+                            if ($ajax) {
+                                $site_data['results'] ='success';
+                                echo json_encode($site_data);
+                                return true;
+                            } else {
+                                $this->redirect(SITE_URL . '/login/registered');
+                            }
                         } else {
                             $site_data['username'] = 'Something went wrong';
                         }
@@ -57,11 +64,23 @@ class Register extends Controller
         } else {
             $site_data['email'] = 'Please enter a valid email address.';
         }
-        return $site_data;
+        if (!$ajax) {
+            return $site_data;
+        }else {
+            echo json_encode($site_data);
+        }
     }
 
     public function reg_ajax() {
-        echo 'Ajax';
+        if (filter_has_var(INPUT_POST, 'register')) {
+            $new_user_class = $this->model('User');
+            $new_user_class->setDb(Controller::getDb());
+            $new_user_class->set_site(SITE_URL);
+            $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
+            $passwd = trim(filter_input(INPUT_POST, 'passwd', FILTER_SANITIZE_STRING));
+            $email = trim(filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL));
+            $this->register_user($email, $new_user_class, $passwd, $username, 1);
+        }
     }
 }
 

@@ -12,7 +12,7 @@
                 <input type="password" name="passwd" id="passwd" required>
                 <br>
                 <p><input type="checkbox" name="showpass">Show password </p>
-                <input type="submit" value="Register" name="register">
+                <input type="submit" value="Register" id="register" name="register">
                 <p>Have an account? <a href="<?php echo SITE_URL; ?>/login">Sign in</a></p>
             </form>
         </div>
