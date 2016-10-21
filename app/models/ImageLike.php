@@ -38,10 +38,10 @@ class ImageLike
         }
     }
 
-    public function get_likes($db) {
-        $stmt = $db->prepare('SELECT COUNT(*) AS `total` FROM `image_likes` WHERE `image_like_love` = true');
+    public function get_likes($db, $image_id) {
+        $stmt = $db->prepare('SELECT COUNT(*) AS `total` FROM `image_likes` WHERE `image_like_love` = TRUE AND `images_image_id` = ?');
         try {
-            $stmt->execute();
+            $stmt->execute([$image_id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row['total'];
         } catch (PDOException $e) {
@@ -49,10 +49,10 @@ class ImageLike
         }
     }
 
-    public function get_dislikes($db) {
-        $stmt = $db->prepare('SELECT COUNT(*) AS `total` FROM `image_likes` WHERE `image_like_hate` = true');
+    public function get_dislikes($db, $image_id) {
+        $stmt = $db->prepare('SELECT COUNT(*) AS `total` FROM `image_likes` WHERE `image_like_hate` = TRUE AND `images_image_id` = ?');
         try {
-            $stmt->execute();
+            $stmt->execute([$image_id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return $row['total'];
         } catch (PDOException $e) {

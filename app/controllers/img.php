@@ -10,8 +10,8 @@ class Img extends Controller
             if (($comments = $this->get_comments($id))) {
                 $site_data['comments'] = $comments;
             }
-            $site_data['love'] = $this->likes();
-            $site_data['hate'] = $this->dislikes();
+            $site_data['love'] = $this->likes($id);
+            $site_data['hate'] = $this->dislikes($id);
         }
 
         if (filter_has_var(INPUT_POST, 'add-comment')) {
@@ -48,16 +48,16 @@ class Img extends Controller
         return $image->get_image_by_id($id);
     }
 
-    protected function likes()
+    protected function likes($image_id)
     {
         $likes = $this->model('ImageLike');
-        return $likes->get_likes(Controller::$db);
+        return $likes->get_likes(Controller::$db, $image_id);
     }
 
-    protected function dislikes()
+    protected function dislikes($image_id)
     {
         $likes = $this->model('ImageLike');
-        return $likes->get_dislikes(Controller::$db);
+        return $likes->get_dislikes(Controller::$db, $image_id);
     }
 
     protected function get_comments($id)
@@ -110,8 +110,8 @@ class Img extends Controller
                 $image_id = filter_input(INPUT_POST, 'like-img');
                 $this->love_hate($image_id, $id);
                 $site_data['results'] = 'success.';
-                $site_data['likes'] = $this->likes();
-                $site_data['dislikes'] = $this->dislikes();
+                $site_data['likes'] = $this->likes($image_id);
+                $site_data['dislikes'] = $this->dislikes($image_id);
                 echo json_encode($site_data);
             } else {
                 $site_data['nouser'] = 'Please login to like or dislike.';

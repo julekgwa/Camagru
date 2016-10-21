@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var url = 'http:\/\/localhost:8080\/Camagru\/public\/';
+var url = 'http:\/\/localhost\/Camagru\/public\/';
 
 window.onload = function () {
     //Ajax registration
