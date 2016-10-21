@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var url = 'http:\/\/localhost:8080\/Camagru\/public\/';
+var url = 'http:\/\/localhost\/Camagru\/public\/';
 
 window.onload = function () {
     //Ajax registration
@@ -267,49 +267,56 @@ function unHide(unhideId) {
 
 //webcam code
 var cam = document.getElementById('cam');
-cam.onclick = function () {
-    var img = null;
-    if (document.querySelector('input[name="emotion"]:checked')) {
-        img = document.querySelector('input[name="emotion"]:checked').value;
-    }
-    var val = (this.innerHTML);
-    var video = document.getElementById('video');
-    var canvas = document.getElementById('canvas');
-    var context = canvas.getContext('2d');
-    var vendorUrl = window.URL || window.webkitURL;
-    if (val == 'Open camera') {
-        cam.innerHTML = 'Take photo';
-        navigator.getMedia = navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.msGetUserMedia;
-        navigator.getMedia({
-            video: true,
-            audio: false
-        }, function (stream) {
-            var source = vendorUrl.createObjectURL(stream);
-            video.src = source;
-            video.play();
-        }, function (error) {
-            console.log('error');
-        });
-    } else if (val == 'Take photo') {
-        if (img) {
-            context.drawImage(video, 0, 0, 400, 300);
-            var dataURL = canvas.toDataURL('image/png');
-            var data = 'image=' + dataURL + '&src=' + img;
-
-            var request = new XMLHttpRequest();
-            request.open('POST', url + 'edit\/image_test', true);
-            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            request.onload = function () {
-                if (request.status == 200) {
-                    console.log(request.responseText);
-                }
-            };
-            request.send(data);
-        }else {
-            alert('Please pick superimpose image');
+if (cam) {
+    cam.onclick = function () {
+        var img = null;
+        if (document.querySelector('input[name="emotion"]:checked')) {
+            img = document.querySelector('input[name="emotion"]:checked').value;
+        }
+        var val = (this.innerHTML);
+        var video = document.getElementById('video');
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var vendorUrl = window.URL || window.webkitURL;
+        if (val == 'Open camera') {
+            cam.innerHTML = 'Take photo';
+            navigator.getMedia = navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia;
+            navigator.getMedia({
+                video: true,
+                audio: false
+            }, function (stream) {
+                var source = vendorUrl.createObjectURL(stream);
+                video.src = source;
+                video.play();
+            }, function (error) {
+                console.log('error');
+            });
+        } else if (val == 'Take photo') {
+            if (img) {
+                context.drawImage(video, 0, 0, 400, 300);
+                var dataURL = canvas.toDataURL('image/png');
+                var data = 'image=' + dataURL + '&src=' + img;
+                playShutter();
+                var request = new XMLHttpRequest();
+                request.open('POST', url + 'edit\/image_test', true);
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                request.onload = function () {
+                    if (request.status == 200) {
+                        console.log(request.responseText);
+                    }
+                };
+                request.send(data);
+            } else {
+                alert('Please pick superimpose image');
+            }
         }
     }
+}
+
+function playShutter() {
+    var audio = document.getElementById('shutter');
+    audio.play();
 }

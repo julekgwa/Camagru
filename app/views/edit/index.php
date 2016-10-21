@@ -4,6 +4,7 @@
             <h1>Main</h1>
             <video id="video" width="400" height="300"></video>
             <canvas id="canvas" hidden  width="400" height="300"></canvas>
+            <audio src="<?php echo SITE_URL; ?>/audio/camera-shutter-click-01.mp3" id="shutter"></audio>
             <p><?php if (isset($site_data['img'])) echo $site_data['img']; ?></p>
             <form hidden method="post" enctype="multipart/form-data" action="">
                 <input type="number" hidden name="user-id" value="<?php if (isset($site_data['id'])) echo $site_data['id']; ?>">
