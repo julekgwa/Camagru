@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var url = 'http:\/\/localhost\/Camagru\/public\/';
+var url = 'http:\/\/localhost:8080\/Camagru\/public\/';
 
 window.onload = function () {
     //Ajax registration
@@ -263,4 +263,46 @@ function hideElement(hideId) {
 function unHide(unhideId) {
     var h = document.getElementById(unhideId);
     h.style.display = 'block';
+}
+
+//webcam code
+function startCam() {
+    var video = document.getElementById('video');
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var vendorUrl = window.URL || window.webkitURL;
+
+    navigator.getMedia = 	navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+    navigator.getMedia({
+        video: true,
+        audio: false
+    }, function(stream){
+        var source = vendorUrl.createObjectURL(stream);
+        video.src = source;
+        video.play();
+    }, function(error){
+        console.log('error');
+    });
+
+    // window.onload = function() {
+        var save = document.getElementById('video');
+        save.addEventListener('click', function(){
+            context.drawImage(video, 0, 0, 400, 300);
+            var dataURL = canvas.toDataURL('image/png');
+            var data = 'image=' + dataURL + '&src=' + 'this\' is a test';
+
+            var request = new XMLHttpRequest();
+            request.open('POST', url + 'edit\/image_test', true);
+            request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            request.onload = function(){
+                if (request.status == 200) {
+                    console.log(request.responseText);
+                }
+            };
+            request.send(data);
+        }, false);
+    // }
 }

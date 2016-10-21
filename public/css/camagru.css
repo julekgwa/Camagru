@@ -364,3 +364,7 @@ span.error, .nouser {
 .author {
     text-transform: capitalize;
 }
+
+video {
+    border: 1px solid #000;
+}

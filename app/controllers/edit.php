@@ -31,7 +31,7 @@ class Edit extends Controller
         $tmp_name = $_FILES['photo']['tmp_name'];
         $img_url = 'default';
         $success = 'unable to upload the image';
-        $img_upload = $_SERVER['DOCUMENT_ROOT']  . '/Camagru/public/uploads/user-img/' . $img_name;
+        $img_upload = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/uploads/user-img/' . $img_name;
         if (($url = $img->move_uploaded_img($tmp_name, $img_upload))) {
             $img_url = $url;
             $success = 'image successfully uploaded';
@@ -39,5 +39,49 @@ class Edit extends Controller
         $img->set_image_info($title, $img_name, $user_id);
         $img->insert_image();
         return $success;
+    }
+
+    public function image_test()
+    {
+        if (isset($_POST['image'])) {
+            $url = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/uploads/user-img/';
+            $img = $_POST['image'];
+            $img = str_replace('data:image/png;base64,', '', $img);
+            $img = str_replace(' ', '+', $img);
+            $data = base64_decode($img);
+            $file = $url . uniqid() . '.png';
+            $success = file_put_contents($file, $data);
+        }
+    }
+
+    public function superimp() {
+        //the source image, foreground.
+        $sourceImage = 'specs.png';
+
+//the destination image, background.
+        $destImage = 'ju.png';
+
+//the size of the source image.
+        list($sourceWidth, $sourceHeight) = getimagesize($sourceImage);
+
+//creating a new image from the source image.
+        $src = imagecreatefrompng($sourceImage);
+
+//create a new image from the destination.
+        $dest = imagecreatefrompng($destImage);
+
+//setting the x and y positions of the source image, on topofthe destination image.
+        $src_xPosition = 0; //75 pixels from the left.
+        $src_yPosition = 0; //50 pixels from the top.
+
+//set the x and y positions of the source image to be copied to the destination image
+        $src_cropXposition = 0; //do not crop at the side
+        $src_cropYposition = 0; //do not crop on the top
+
+//merge the source and destination
+        imagecopy($dest, $src, $src_xPosition, $src_yPosition, $src_cropXposition, $src_cropYposition, $sourceWidth, $sourceHeight);
+
+        imagepng($dest, 'show.png');
+        echo "<img src=\"show.png\">";
     }
 }
