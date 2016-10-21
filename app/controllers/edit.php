@@ -51,15 +51,20 @@ class Edit extends Controller
             $data = base64_decode($img);
             $file = $url . uniqid() . '.png';
             $success = file_put_contents($file, $data);
+            if ($success) {
+                $imposer = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/images/' . trim($_POST['src']);
+                $this->superimp($file, $imposer);
+            }
         }
     }
 
-    public function superimp() {
+    public function superimp($real_image, $superImposer)
+    {
         //the source image, foreground.
-        $sourceImage = 'specs.png';
+        $sourceImage = $superImposer;
 
 //the destination image, background.
-        $destImage = 'ju.png';
+        $destImage = $real_image;
 
 //the size of the source image.
         list($sourceWidth, $sourceHeight) = getimagesize($sourceImage);
@@ -81,7 +86,6 @@ class Edit extends Controller
 //merge the source and destination
         imagecopy($dest, $src, $src_xPosition, $src_yPosition, $src_cropXposition, $src_cropYposition, $sourceWidth, $sourceHeight);
 
-        imagepng($dest, 'show.png');
-        echo "<img src=\"show.png\">";
+        imagepng($dest, $real_image);
     }
 }
