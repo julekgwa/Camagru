@@ -270,9 +270,9 @@ function unHide(unhideId) {
 var cam = document.getElementById('cam'); //open and take picture button
 var video = document.getElementById('video'); //the video div
 var canvas = document.getElementById('canvas'); //the canvas div
-var context = canvas.getContext('2d');
 var superImages = document.getElementById('super-images'); //superimposed div
 var upload = document.getElementById('upload-photo'); //upload photo button
+var save = document.getElementById('save-photo'); //save photo image
 var img = null; //check if image is selected.
 var image = document.getElementById('image'); //uploaded image from form.
 if (cam) {
@@ -281,6 +281,7 @@ if (cam) {
             img = document.querySelector('input[name="super"]:checked').value;
         }
         var val = (this.innerHTML);
+        var context = canvas.getContext('2d');
         var vendorUrl = window.URL || window.webkitURL;
         if (val === 'Open camera') {
             cam.innerHTML = 'Take photo';
@@ -305,24 +306,10 @@ if (cam) {
             });
         } else if (val === 'Take photo') {
             if (img) {
-                // context.drawImage(video, 0, 0, 400, 300);
-                // var dataURL = canvas.toDataURL('image/png');
-                // var data = 'image=' + dataURL + '&src=' + img;
-                // playShutter();
-                // var request = new XMLHttpRequest();
-                // request.open('POST', url + 'edit\/upload_image_cam', true);
-                // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                // request.onload = function () {
-                //     if (request.status === 200) {
-                //         var res = JSON.parse(request.responseText);
-                //         if (res.hasOwnProperty('src')) {
-                //             createDiv('uploaded-imgs', clean_url + '/uploads/user-img/' + res.src, 'side-img');
-                //         }
-                //         //    handle errors here
-                //     }
-                // };
-                // request.send(data);
-                uploadImage();
+                context.drawImage(video, 0, 0, 400, 300);
+                var dataURL = canvas.toDataURL('image/png');
+                playShutter();
+                uploadImage(dataURL);
             } else {
                 alert('Please pick superimpose image'); //display error here
             }
@@ -330,24 +317,21 @@ if (cam) {
     }
 }
 
-function uploadImage() {
-    context.drawImage(video, 0, 0, 400, 300);
-                var dataURL = canvas.toDataURL('image/png');
-                var data = 'image=' + dataURL + '&src=' + img;
-                playShutter();
-                var request = new XMLHttpRequest();
-                request.open('POST', url + 'edit\/upload_image_cam', true);
-                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                request.onload = function () {
-                    if (request.status === 200) {
-                        var res = JSON.parse(request.responseText);
-                        if (res.hasOwnProperty('src')) {
-                            createDiv('uploaded-imgs', clean_url + '/uploads/user-img/' + res.src, 'side-img');
-                        }
-                        //    handle errors here
-                    }
-                };
-                request.send(data);
+function uploadImage(dataURL) {
+    var data = 'image=' + dataURL + '&src=' + img;
+    var request = new XMLHttpRequest();
+    request.open('POST', url + 'edit\/upload_image_cam', true);
+    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    request.onload = function () {
+        if (request.status === 200) {
+            var res = JSON.parse(request.responseText);
+            if (res.hasOwnProperty('src')) {
+                createDiv('uploaded-imgs', clean_url + '/uploads/user-img/' + res.src, 'side-img');
+            }
+            //    handle errors here
+        }
+    };
+    request.send(data);
 }
 
 if (upload) {
@@ -358,9 +342,27 @@ if (upload) {
 }
 
 if (image) {
-    image.addEventListener('change', function (e) {
-        var preview = document.getElementById('preview');
-        preview.src = URL.createObjectURL(e.target.files[0]);
+    image.addEventListener('change', function () {
+        // var preview = document.getElementById('preview');
+        // preview.src = URL.createObjectURL(e.target.files[0]);
+        var context = canvas.getContext('2d');
+        if (this.files && this.files[0]) {
+            var fr = new FileReader();
+            fr.onload = function (ev) {
+                var img = new Image();
+                img.onload = function () {
+                    context.drawImage(img, 0, 0);
+                };
+                img.src = ev.target.result;
+            };
+            fr.readAsDataURL(this.files[0]);
+        }
+    }, false);
+}
+
+if (save) {
+    save.addEventListener('click', function(){
+        alert('Yes');
     }, false);
 }
 
