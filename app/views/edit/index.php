@@ -33,10 +33,18 @@
                         src="<?php echo SITE_URL . '/images/happy-cat.png'; ?>"
                         alt="I'm happy" />
                 </label>
+
+                <input
+                    type="radio" name="super"
+                    id="shrek" value="Shrek_emoji.png" class="input-hidden" />
+                <label for="shrek">
+                    <img
+                        src="<?php echo SITE_URL . '/images/Shrek_emoji.png'; ?>"
+                        alt="I'm happy" />
+                </label>
             </div>
             <button id="cam" >Open camera</button>
             <button id="upload-photo">Upload photo</button>
-            <button id="save">Save</button>
         </div>
         <div class="mi-col-xs-12">
             <h3>myUPLOADS</h3>

@@ -300,11 +300,11 @@ if (cam) {
                 video: true,
                 audio: false
             }, function (stream) {
-                // var source = vendorUrl.createObjectURL(stream);
-                // video.src = source;
-                // video.play();
-                video.src = vendorUrl.createObjectURL(stream);
-                MediaStream = stream.getTracks()[0];
+                var source = vendorUrl.createObjectURL(stream);
+                video.src = source;
+                video.play();
+                // video.src = vendorUrl.createObjectURL(stream);
+                // MediaStream = stream.getTracks()[0];
             }, function (error) {
                 console.log(error);
             });
@@ -367,13 +367,6 @@ if (image) {
             };
             fr.readAsDataURL(this.files[0]);
         }
-    }, false);
-}
-
-if (save) {
-    save.addEventListener('click', function(){
-        MediaStream.stop();
-        cam.innerHTML = 'Open camera';
     }, false);
 }
 

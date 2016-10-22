@@ -393,3 +393,7 @@ input[type=radio]:checked + label>img {
             rotateZ(-10deg)
             rotateX(10deg);
 }
+
+.item img {
+    width: 100%;
+}
