@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-var url = 'http:\/\/localhost\/Camagru\/public\/';
-var clean_url = 'http://localhost/Camagru/public/';
+var url = 'http:\/\/localhost:8080\/Camagru\/public\/';
+var clean_url = 'http://localhost:8080/Camagru/public/';
 
 window.onload = function () {
     //Ajax registration
@@ -270,9 +270,11 @@ function unHide(unhideId) {
 var cam = document.getElementById('cam'); //open and take picture button
 var video = document.getElementById('video'); //the video div
 var canvas = document.getElementById('canvas'); //the canvas div
+var canvasWidth = 400;
+var canvasHeight = 300;
 var superImages = document.getElementById('super-images'); //superimposed div
 var upload = document.getElementById('upload-photo'); //upload photo button
-var save = document.getElementById('save-photo'); //save photo image
+var save = document.getElementById('save'); //save photo image
 var img = null; //check if image is selected.
 var image = document.getElementById('image'); //uploaded image from form.
 if (cam) {
@@ -298,15 +300,17 @@ if (cam) {
                 video: true,
                 audio: false
             }, function (stream) {
-                var source = vendorUrl.createObjectURL(stream);
-                video.src = source;
-                video.play();
+                // var source = vendorUrl.createObjectURL(stream);
+                // video.src = source;
+                // video.play();
+                video.src = vendorUrl.createObjectURL(stream);
+                MediaStream = stream.getTracks()[0];
             }, function (error) {
                 console.log(error);
             });
         } else if (val === 'Take photo') {
             if (img) {
-                context.drawImage(video, 0, 0, 400, 300);
+                context.drawImage(video, 0, 0, canvasWidth, canvasHeight);
                 var dataURL = canvas.toDataURL('image/png');
                 playShutter();
                 uploadImage(dataURL);
@@ -343,14 +347,20 @@ if (upload) {
 
 if (image) {
     image.addEventListener('change', function () {
-        // var preview = document.getElementById('preview');
-        // preview.src = URL.createObjectURL(e.target.files[0]);
+
         var context = canvas.getContext('2d');
         if (this.files && this.files[0]) {
             var fr = new FileReader();
             fr.onload = function (ev) {
                 var img = new Image();
                 img.onload = function () {
+                    canvasWidth = img.naturalWidth;
+                    canvasHeight = img.naturalHeight;
+                    canvas.width = canvasWidth;
+                    canvas.height = canvasHeight;
+                    cam.innerHTML = 'Take photo';
+                    enableEl(['super-images']);
+                    cam.disabled = true;
                     context.drawImage(img, 0, 0);
                 };
                 img.src = ev.target.result;
@@ -362,8 +372,14 @@ if (image) {
 
 if (save) {
     save.addEventListener('click', function(){
-        alert('Yes');
+        MediaStream.stop();
+        cam.innerHTML = 'Open camera';
     }, false);
+}
+
+function stopcam() {
+    MediaStream.stop();
+    cam.innerHTML = 'Open camera';
 }
 
 function disableEl(params) {

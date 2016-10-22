@@ -14,6 +14,7 @@ class Edit extends Controller {
             $site_data['img'] = $this->uploads();
         }
         $site_data['id'] = $details['user_id'];
+        $site_data['uploads'] = $user->get_my_uploads((int)$details['user_id']);
         $this->view('templates/header');
         $this->view('edit/index', $site_data);
         $this->view('templates/footer');

@@ -4,7 +4,7 @@
             <h1>Main</h1>
             <video id="video" hidden width="400" height="300"></video>
             <img alt="" id="preview">
-            <canvas id="canvas"   width="400" height="300"></canvas>
+            <canvas id="canvas" style="border: 1px solid red"  width="400" height="300"></canvas>
             <audio src="<?php echo SITE_URL; ?>/audio/camera-shutter-click-01.mp3" id="shutter"></audio>
             <p><?php if (isset($site_data['img'])) echo $site_data['img']; ?></p>
             <form hidden id="upload-image" method="post" enctype="multipart/form-data" action="">
@@ -36,12 +36,18 @@
             </div>
             <button id="cam" >Open camera</button>
             <button id="upload-photo">Upload photo</button>
-            <button hidden id="save-photo">Save photo</button>
+            <button id="save">Save</button>
         </div>
         <div class="mi-col-xs-12">
-            <h1>sidebar</h1>
+            <h3>myUPLOADS</h3>
             <div id="uploaded-imgs">
-
+                <?php if (isset($site_data['uploads'])) : ?>
+                <?php foreach ($site_data['uploads'] as $image) : ?>
+                <div class="side-img">
+                    <img src="<?php echo SITE_URL . '/uploads/user-img/' . $image['image_url']; ?>">
+                </div>
+                        <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

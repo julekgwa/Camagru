@@ -241,4 +241,15 @@ class User
             return null;
         }
     }
+
+    public function get_my_uploads($user_id) {
+        $stmt = $this->_db->prepare('SELECT * FROM `images` WHERE `users_user_id` = ? ORDER BY `image_created` DESC');
+        try {
+            $stmt->execute([$user_id]);
+            $uploads = $stmt->fetchAll();
+            return $uploads;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
