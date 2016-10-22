@@ -2,22 +2,22 @@
     <div class="row">
         <div class="mi-col-xs-12">
             <h1>Main</h1>
-            <video id="video" width="400" height="300"></video>
+            <video id="video" hidden width="400" height="300"></video>
+            <img alt="" id="preview">
             <canvas id="canvas" hidden  width="400" height="300"></canvas>
             <audio src="<?php echo SITE_URL; ?>/audio/camera-shutter-click-01.mp3" id="shutter"></audio>
             <p><?php if (isset($site_data['img'])) echo $site_data['img']; ?></p>
-            <form hidden method="post" enctype="multipart/form-data" action="">
+            <form hidden id="upload-image" method="post" enctype="multipart/form-data" action="">
                 <input type="number" hidden name="user-id" value="<?php if (isset($site_data['id'])) echo $site_data['id']; ?>">
                 <br>
                 <label><span
                         class="error"><?php //if (isset($site_data)) echo $site_data['wrong_type']; ?></span></label>
-                <br><input type="file" name="photo" required accept="image/*">
-                <input type="submit" name="upload">
+                <br><input type="file" name="photo" id="image" required accept="image/*">
             </form>
             <br>
-            <div class="super-images">
+            <div class="super-images" hidden id="super-images">
                 <input
-                    type="radio" name="emotion"
+                    type="radio" name="super"
                     id="sad" value="surprise.png" class="input-hidden" />
                 <label for="sad">
                     <img
@@ -26,7 +26,7 @@
                 </label>
 
                 <input
-                    type="radio" name="emotion"
+                    type="radio" name="super"
                     id="happy" value="happy-cat.png" class="input-hidden" />
                 <label for="happy">
                     <img
@@ -35,10 +35,14 @@
                 </label>
             </div>
             <button id="cam" >Open camera</button>
-            <button onclick="">Upload photo</button>
+            <button id="upload-photo">Upload photo</button>
+            <button hidden id="save-photo">Save photo</button>
         </div>
         <div class="mi-col-xs-12">
             <h1>sidebar</h1>
+            <div id="uploaded-imgs">
+
+            </div>
         </div>
     </div>
 </div>

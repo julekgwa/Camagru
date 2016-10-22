@@ -5,6 +5,7 @@
  */
 
 var url = 'http:\/\/localhost\/Camagru\/public\/';
+var clean_url = 'http://localhost/Camagru/public/';
 
 window.onload = function () {
     //Ajax registration
@@ -202,7 +203,7 @@ window.onload = function () {
 //validate passwod
 function validatePassword(passwdId, errorId) {
     var p = document.getElementById(passwdId).value,
-        errors = [];
+            errors = [];
     var error = document.getElementById(errorId);
     if (p.length < 8) {
         errors.push("Your password must be at least 8 characters");
@@ -265,25 +266,33 @@ function unHide(unhideId) {
     h.style.display = 'block';
 }
 
-//webcam code
-var cam = document.getElementById('cam');
+//working with the webcam
+var cam = document.getElementById('cam'); //open and take picture button
+var video = document.getElementById('video'); //the video div
+var canvas = document.getElementById('canvas'); //the canvas div
+var context = canvas.getContext('2d');
+var superImages = document.getElementById('super-images'); //superimposed div
+var upload = document.getElementById('upload-photo'); //upload photo button
+var img = null; //check if image is selected.
+var image = document.getElementById('image'); //uploaded image from form.
 if (cam) {
     cam.onclick = function () {
-        var img = null;
-        if (document.querySelector('input[name="emotion"]:checked')) {
-            img = document.querySelector('input[name="emotion"]:checked').value;
+        if (document.querySelector('input[name="super"]:checked')) {
+            img = document.querySelector('input[name="super"]:checked').value;
         }
         var val = (this.innerHTML);
-        var video = document.getElementById('video');
-        var canvas = document.getElementById('canvas');
-        var context = canvas.getContext('2d');
         var vendorUrl = window.URL || window.webkitURL;
-        if (val == 'Open camera') {
+        if (val === 'Open camera') {
             cam.innerHTML = 'Take photo';
+            this.disabled = true;
+            // video.removeAttribute('hidden');
+            // superImages.removeAttribute('hidden');
+            enableEl(['video', 'super-images']);
+            disableEl(['upload-image', 'save-photo']);
             navigator.getMedia = navigator.getUserMedia ||
-                navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia;
+                    navigator.webkitGetUserMedia ||
+                    navigator.mozGetUserMedia ||
+                    navigator.msGetUserMedia;
             navigator.getMedia({
                 video: true,
                 audio: false
@@ -292,25 +301,86 @@ if (cam) {
                 video.src = source;
                 video.play();
             }, function (error) {
-                console.log('error');
+                console.log(error);
             });
-        } else if (val == 'Take photo') {
+        } else if (val === 'Take photo') {
             if (img) {
-                context.drawImage(video, 0, 0, 400, 300);
+                // context.drawImage(video, 0, 0, 400, 300);
+                // var dataURL = canvas.toDataURL('image/png');
+                // var data = 'image=' + dataURL + '&src=' + img;
+                // playShutter();
+                // var request = new XMLHttpRequest();
+                // request.open('POST', url + 'edit\/upload_image_cam', true);
+                // request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                // request.onload = function () {
+                //     if (request.status === 200) {
+                //         var res = JSON.parse(request.responseText);
+                //         if (res.hasOwnProperty('src')) {
+                //             createDiv('uploaded-imgs', clean_url + '/uploads/user-img/' + res.src, 'side-img');
+                //         }
+                //         //    handle errors here
+                //     }
+                // };
+                // request.send(data);
+                uploadImage();
+            } else {
+                alert('Please pick superimpose image'); //display error here
+            }
+        }
+    }
+}
+
+function uploadImage() {
+    context.drawImage(video, 0, 0, 400, 300);
                 var dataURL = canvas.toDataURL('image/png');
                 var data = 'image=' + dataURL + '&src=' + img;
                 playShutter();
                 var request = new XMLHttpRequest();
-                request.open('POST', url + 'edit\/image_test', true);
+                request.open('POST', url + 'edit\/upload_image_cam', true);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 request.onload = function () {
-                    if (request.status == 200) {
-                        console.log(request.responseText);
+                    if (request.status === 200) {
+                        var res = JSON.parse(request.responseText);
+                        if (res.hasOwnProperty('src')) {
+                            createDiv('uploaded-imgs', clean_url + '/uploads/user-img/' + res.src, 'side-img');
+                        }
+                        //    handle errors here
                     }
                 };
                 request.send(data);
-            } else {
-                alert('Please pick superimpose image');
+}
+
+if (upload) {
+    upload.addEventListener('click', function () {
+        disableEl(['video', 'super-images']);
+        enableEl(['save-photo', 'upload-image']);
+    });
+}
+
+if (image) {
+    image.addEventListener('change', function (e) {
+        var preview = document.getElementById('preview');
+        preview.src = URL.createObjectURL(e.target.files[0]);
+    }, false);
+}
+
+function disableEl(params) {
+    for (var el in params) {
+        var dis = document.getElementById(params[el]);
+        if (dis) {
+            if (!dis.hasAttribute('hidden')) {
+                dis.setAttribute('hidden', true);
+            }
+        }
+    }
+}
+
+function enableEl(params) {
+    for (var el in params) {
+        var dis = document.getElementById(params[el]);
+        if (dis) {
+            if (dis.hasAttribute('hidden')) {
+                dis.removeAttribute('hidden');
             }
         }
     }
@@ -319,4 +389,26 @@ if (cam) {
 function playShutter() {
     var audio = document.getElementById('shutter');
     audio.play();
+}
+
+function createDiv(idParent, innerContent, clsName) {
+    var div = document.createElement('div');
+    var parent = document.getElementById(idParent);
+    var img = new Image();
+    img.src = innerContent;
+    div.className = clsName;
+    div.appendChild(img);
+    parent.insertBefore(div, parent.childNodes[0]);
+}
+
+var radios = document.getElementsByName('super');
+if (radios) {
+    for (var radio in radios) {
+        radios[radio].onclick = function () {
+            var cam = document.getElementById('cam');
+            if (cam.hasAttribute('disabled')) {
+                cam.removeAttribute('disabled');
+            }
+        }
+    }
 }

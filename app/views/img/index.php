@@ -1,6 +1,6 @@
 <div class="container">
     <?php if (!empty($site_data)) : ?>
-    <p><?php echo $site_data['image_title']; ?></p>
+    <p><?php // echo $site_data['image_title']; ?></p>
     <img src="<?php echo SITE_URL . '/uploads/user-img/' . $site_data['image_url']; ?>">
     <div class="social">
         <!--like button-->

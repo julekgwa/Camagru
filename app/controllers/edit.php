@@ -1,10 +1,8 @@
 <?php
 
-class Edit extends Controller
-{
+class Edit extends Controller {
 
-    public function index()
-    {
+    public function index() {
         if (!Controller::logged_on()) {
             Controller::redirect(SITE_URL . '/login');
         }
@@ -21,11 +19,9 @@ class Edit extends Controller
         $this->view('templates/footer');
     }
 
-    public function uploads()
-    {
+    public function uploads() {
         $img = $this->model('Image');
         $img->setDb(Controller::$db);
-        $title = filter_input(INPUT_POST, 'title');
         $user_id = filter_input(INPUT_POST, 'user-id');
         $img_name = $_FILES['photo']['name'];
         $tmp_name = $_FILES['photo']['tmp_name'];
@@ -36,30 +32,46 @@ class Edit extends Controller
             $img_url = $url;
             $success = 'image successfully uploaded';
         }
-        $img->set_image_info($title, $img_name, $user_id);
+        $img->set_image_info($img_name, $user_id);
         $img->insert_image();
         return $success;
     }
 
-    public function image_test()
-    {
-        if (isset($_POST['image'])) {
-            $url = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/uploads/user-img/';
-            $img = $_POST['image'];
-            $img = str_replace('data:image/png;base64,', '', $img);
-            $img = str_replace(' ', '+', $img);
-            $data = base64_decode($img);
-            $file = $url . uniqid() . '.png';
-            $success = file_put_contents($file, $data);
-            if ($success) {
-                $imposer = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/images/' . trim($_POST['src']);
-                $this->superimp($file, $imposer);
+    public function upload_image_cam() {
+        if (Controller::logged_on()) {
+            if (isset($_POST['image'])) {
+                $user = $this->model('User');
+                $user_name = $_SESSION['logged_on_user'];
+                $user->setDB(Controller::$db);
+                $cam_img = $this->model('Image');
+                $cam_img->setDb(Controller::$db);
+                $details = $user->get_user($user_name);
+                $url = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/uploads/user-img/';
+                $img = $_POST['image'];
+                $img = str_replace('data:image/png;base64,', '', $img);
+                $img = str_replace(' ', '+', $img);
+                $data = base64_decode($img);
+                $file = uniqid() . '.png';
+                $img_url = $file;
+                $file = $url . $file;
+                $success = file_put_contents($file, $data);
+                if ($success) {
+                    $imposer = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/images/' . trim($_POST['src']);
+                    $this->superimp($file, $imposer);
+                    $cam_img->set_image_info($img_url, $details['user_id']);
+                    $cam_img->insert_image();
+                    echo json_encode(['src' => $img_url]);
+                }else {
+                    echo json_encode(['error' => 'unable to upload image']);
+                }
             }
+        } else {
+            $site_data['nouser'] = 'Please login to comment.';
+            echo json_encode($site_data);
         }
     }
 
-    public function superimp($real_image, $superImposer)
-    {
+    public function superimp($real_image, $superImposer) {
         //the source image, foreground.
         $sourceImage = $superImposer;
 
@@ -78,14 +90,13 @@ class Edit extends Controller
 //setting the x and y positions of the source image, on topofthe destination image.
         $src_xPosition = 0; //75 pixels from the left.
         $src_yPosition = 0; //50 pixels from the top.
-
 //set the x and y positions of the source image to be copied to the destination image
         $src_cropXposition = 0; //do not crop at the side
         $src_cropYposition = 0; //do not crop on the top
-
 //merge the source and destination
         imagecopy($dest, $src, $src_xPosition, $src_yPosition, $src_cropXposition, $src_cropYposition, $sourceWidth, $sourceHeight);
 
         imagepng($dest, $real_image);
     }
+
 }

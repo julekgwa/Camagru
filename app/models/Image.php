@@ -8,26 +8,10 @@
  */
 class Image
 {
-    private $_title;
     private $_user_id;
     private $_url;
     private $_db;
 
-    /**
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->_title;
-    }
-
-    /**
-     * @param mixed $title
-     */
-    public function setTitle($title)
-    {
-        $this->_title = $title;
-    }
 
     /**
      * @return mixed
@@ -77,18 +61,17 @@ class Image
         $this->_db = $db;
     }
 
-    public function set_image_info($title, $url, $user_id)
+    public function set_image_info($url, $user_id)
     {
         $this->_url = $url;
         $this->_user_id = $user_id;
-        $this->_title = $title;
     }
 
     public function insert_image()
     {
-        $stmt = $this->_db->prepare('INSERT INTO `images`(`users_user_id`, `image_url`, `image_title`) VALUES (?, ?, ?)');
+        $stmt = $this->_db->prepare('INSERT INTO `images`(`users_user_id`, `image_url`) VALUES (?, ?)');
         try {
-            $stmt->execute([$this->_user_id, $this->_url, $this->_title]);
+            $stmt->execute([$this->_user_id, $this->_url]);
             return true;
         } catch (PDOException $e) {
             return false;
