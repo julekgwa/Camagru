@@ -1,10 +1,16 @@
 <div class="container">
     <div class="row">
         <div class="mi-col-xs-12">
-            <h1>Main</h1>
-            <video id="video" hidden width="400" height="300"></video>
+            <!-- <h1>Main</h1> -->
+            <br>
+            <div id="overlay-box" style="height:300px;width:400;">
+            <img style="width: 150px; height: 150px" id="impose" src="../../../Camagru/public/images/surprise.png">
+            <video id="video" style="position: relative" width="400" height="300">
+            </video>
+            </div>
             <img alt="" id="preview">
-            <canvas id="canvas" style="border: 1px solid red"  width="400" height="300"></canvas>
+            <canvas id="canvas" hidden style="border: 1px solid red"  width="400" height="300"></canvas>
+            <canvas id="from-form" hidden style="border: 1px solid red"  width="400" height="300"></canvas>
             <audio src="<?php echo SITE_URL; ?>/audio/camera-shutter-click-01.mp3" id="shutter"></audio>
             <p><?php if (isset($site_data['img'])) echo $site_data['img']; ?></p>
             <form hidden id="upload-image" method="post" enctype="multipart/form-data" action="">
@@ -45,6 +51,7 @@
             </div>
             <button id="cam" >Open camera</button>
             <button id="upload-photo">Upload photo</button>
+            <button id="save-photo">Save photo</button>
         </div>
         <div class="mi-col-xs-12">
             <h3>myUPLOADS</h3>

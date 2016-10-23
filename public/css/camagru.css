@@ -29,6 +29,7 @@ footer p {
     margin: 0 auto;
     background-color: #ECEFF1;
     border-bottom: 20px;
+    /*padding: 20px;*/
 }
 
 .logo {
@@ -41,9 +42,9 @@ header {
     background-color: #03A9F4;
 }
 
-.item {
+/*.item {
     flex: 1;
-}
+}*/
 
 .item-search {
     flex: 4;
@@ -218,7 +219,7 @@ label {
     border: none;
     outline: none;
     font-size: 16px;
-    width: 48%;
+    /*width: 48%;*/
     background-color: #03A9F4;
     color: #fff;
 }
@@ -394,6 +395,88 @@ input[type=radio]:checked + label>img {
             rotateX(10deg);
 }
 
-.item img {
+/*.item img {
     width: 100%;
+}*/
+
+.gallery {
+    margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+
+.responsive-image {
+  max-width: 100%;
+}
+
+.cell img {
+    display: block;
+}
+
+.cell {
+  margin: 1rem;
+}
+
+#overlay-box {
+    position: relative;
+}
+
+#impose {
+    position: absolute;
+    z-index: 30000;
+}
+/* smartphones, iPhone, portrait 480x320 phones */
+@media (min-width:320px) {
+    body {
+        background-color: #000000;
+    }
+}
+
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+@media (min-width:481px) {
+    body {
+        background-color: #03A9F4;
+    }
+
+    .grid {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  .cell {
+    width: calc(50% - 2rem);
+  }
+}
+
+/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+@media (min-width:641px) {
+    body {
+        background-color: #009900;
+    }
+}
+
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width:961px) {
+    body {
+        background-color: #0186ba;
+    }
+    .cell {
+    width: calc(33.3333% - 2rem);
+  }
+  .container {
+    width: 90%;
+  }
+}
+
+/* big landscape tablets, laptops, and desktops */
+@media (min-width:1025px) {
+    body {
+        background-color: coral;
+    }
+}
+
+/* hi-res laptops and desktops */
+@media (min-width:1281px) {
+    
 }

@@ -89,7 +89,7 @@ class Edit extends Controller {
         $dest = imagecreatefrompng($destImage);
 
 //setting the x and y positions of the source image, on topofthe destination image.
-        $src_xPosition = 0; //75 pixels from the left.
+        $src_xPosition = 75; //75 pixels from the left.
         $src_yPosition = 0; //50 pixels from the top.
 //set the x and y positions of the source image to be copied to the destination image
         $src_cropXposition = 0; //do not crop at the side
