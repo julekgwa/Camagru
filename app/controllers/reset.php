@@ -30,7 +30,7 @@ class Reset extends Controller
      */
     protected function reset_passwd($ajax = '')
     {
-        if (filter_has_var(INPUT_POST, 'reset')) {
+        if (filter_has_var(INPUT_POST, 'email')) {
             $new_user = $this->model('User');
             $new_user->setDb(Controller::getDb());
             $new_user->set_site(SITE_URL);
@@ -128,7 +128,7 @@ class Reset extends Controller
      */
     public function new_passwd($code = '', $ajax = '')
     {
-        if (filter_has_var(INPUT_POST, 'new')) {
+        if (filter_has_var(INPUT_POST, 'newpasswd')) {
             $new_user = $this->model('User');
             $new_user->setDb(Controller::getDb());
             $new_user->set_site(SITE_URL);

@@ -6,12 +6,16 @@
         <!--like button-->
         <form method="post" action="" name="love-hate">
             <input type="number" id="like-img" name="like-img" hidden value="<?php echo $site_data['image_id']; ?>">
-            <button class="social-like" type="submit" name="vote" value="love">
-                <span class="like"><i class="fa fa-thumbs-up"></i></span>
+            <input id="votes" hidden name="vote" value="love">
+            <button  id="like-value" class="social-like" type="submit" name="vote" value="love">
+                <span id="sub-like"  class="like"><i class="fa fa-thumbs-up"></i></span>
                 <span id="likes" class="count"><?php if (isset($site_data['love'])) echo $site_data['love']; ?></span>
             </button>
-            &nbsp;
+            &nbsp;</form>
+        <form method="post" action="" name="hate">
+            <input type="number" id="like-img" name="like-img" hidden value="<?php echo $site_data['image_id']; ?>">
             <button class="social-dislike" type="submit" name="vote" value="hate">
+                <input id="votes" hidden name="vote" value="hate">
                 <span id="dislikes"
                       class="dislike-count"><?php if (isset($site_data['hate'])) echo $site_data['hate']; ?></span>
                 <span class="dislike"><i class="fa fa-thumbs-down"></i></span>

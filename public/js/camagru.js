@@ -69,7 +69,7 @@ window.onload = function () {
                     if (userlogin.status == 200) {
                         var result = JSON.parse(userlogin.responseText);
                         if (result.results == 'success.') {
-                            alert('Remember to create popup form');
+                            alert('logged in'); //change this later
                         } else {
                             document.getElementById('cred-error').innerHTML = result.results;
                         }
@@ -167,6 +167,31 @@ window.onload = function () {
         }, false);
     }
 
+    var hates = document.forms.namedItem('hate');
+    if (hates) {
+        hates.addEventListener('submit', function (e) {
+            var data = new FormData(hates);
+            var request = new XMLHttpRequest();
+            request.open('POST', url + 'img\/like_ajax', true);
+            request.onload = function (event) {
+                if (request.status == 200) {
+                    var res = JSON.parse(request.responseText);
+                    if (res.hasOwnProperty('nouser')) {
+                        document.getElementById('nouser').innerHTML = res.nouser;
+                    } else {
+                        var likes = document.getElementById('likes');
+                        var dislikes = document.getElementById('dislikes');
+                        likes.innerHTML = res.likes;
+                        dislikes.innerHTML = res.dislikes;
+                    }
+                }
+            };
+            request.send(data);
+            e.preventDefault();
+        }, false);
+    }
+
+
     //comments with ajax
     var opinion = document.forms.namedItem('opinion');
     if (opinion) {
@@ -203,7 +228,7 @@ window.onload = function () {
     }
 
     addListeners();
-};
+}
 
 //validate passwod
 function validatePassword(passwdId, errorId) {

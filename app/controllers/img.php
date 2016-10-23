@@ -94,7 +94,7 @@ class Img extends Controller
         if (filter_input(INPUT_POST, 'vote') == 'love') {
             $like->set_like($image_id, $user_id, true);
             $like->like_hate('image_like_hate', 'image_like_love');
-        } elseif (filter_input(INPUT_POST, 'vote') == 'hate') {
+        } else  {
             $like->set_like($image_id, $user_id, 0);
             $like->like_hate('image_like_love', 'image_like_hate');
         }
@@ -121,7 +121,7 @@ class Img extends Controller
     }
 
     public function add_comment_ajax() {
-        if (filter_has_var(INPUT_POST, 'add-comment')) {
+        if (filter_has_var(INPUT_POST, 'comment')) {
             if (Controller::logged_on()) {
                 $user = $this->model('User');
                 $user->setDB(Controller::$db);

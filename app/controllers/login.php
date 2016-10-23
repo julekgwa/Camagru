@@ -17,7 +17,7 @@ class Login extends Controller
 
     private function login_user($ajax  = '')
     {
-        if (filter_has_var(INPUT_POST, 'login')) {
+        if (filter_has_var(INPUT_POST, 'username') && filter_has_var(INPUT_POST, 'passwd')) {
             $new_user = $this->model('User');
             $new_user->setDb(Controller::getDb());
             $new_user->set_site(SITE_URL);

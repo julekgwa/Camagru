@@ -175,7 +175,7 @@ class User
 
     public function is_passwd_valid($passwd)
     {
-        if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/', $passwd)) {
+        if (preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$/', $passwd)) {
             return TRUE;
         } else {
             return FALSE;

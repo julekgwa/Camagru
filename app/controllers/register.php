@@ -5,7 +5,7 @@ class Register extends Controller
 
     public function index($site_data = [])
     {
-        if (filter_has_var(INPUT_POST, 'register')) {
+        if (filter_has_var(INPUT_POST, 'username') && filter_has_var(INPUT_POST, 'passwd') && filter_has_var(INPUT_POST, 'email')) {
             $new_user_class = $this->model('User');
             $new_user_class->setDb(Controller::getDb());
             $new_user_class->set_site(SITE_URL);
@@ -69,7 +69,7 @@ class Register extends Controller
     }
 
     public function reg_ajax() {
-        if (filter_has_var(INPUT_POST, 'register')) {
+        if (filter_has_var(INPUT_POST, 'username') && filter_has_var(INPUT_POST, 'passwd') && filter_has_var(INPUT_POST, 'email')) {
             $new_user_class = $this->model('User');
             $new_user_class->setDb(Controller::getDb());
             $new_user_class->set_site(SITE_URL);
