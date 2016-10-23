@@ -420,11 +420,17 @@ input[type=radio]:checked + label>img {
 
 #overlay-box {
     position: relative;
+    width: 400px;
+    height: 300px;
 }
 
 #impose {
     position: absolute;
     z-index: 30000;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
 }
 /* smartphones, iPhone, portrait 480x320 phones */
 @media (min-width:320px) {

@@ -49,6 +49,8 @@ class Edit extends Controller {
                 $details = $user->get_user($user_name);
                 $url = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/uploads/user-img/';
                 $img = $_POST['image'];
+                $x_position = $_POST['x'];
+                $y_position = $_POST['y'];
                 $img = str_replace('data:image/png;base64,', '', $img);
                 $img = str_replace(' ', '+', $img);
                 $data = base64_decode($img);
@@ -58,7 +60,7 @@ class Edit extends Controller {
                 $success = file_put_contents($file, $data);
                 if ($success) {
                     $imposer = $_SERVER['DOCUMENT_ROOT'] . '/Camagru/public/images/' . trim($_POST['src']);
-                    $this->superimp($file, $imposer);
+                    $this->superimp($file, $imposer, $x_position, $y_position);
                     $cam_img->set_image_info($img_url, $details['user_id']);
                     $cam_img->insert_image();
                     echo json_encode(['src' => $img_url]);
@@ -72,7 +74,7 @@ class Edit extends Controller {
         }
     }
 
-    public function superimp($real_image, $superImposer) {
+    public function superimp($real_image, $superImposer, $x_left, $y_top) {
         //the source image, foreground.
         $sourceImage = $superImposer;
 
@@ -89,8 +91,8 @@ class Edit extends Controller {
         $dest = imagecreatefrompng($destImage);
 
 //setting the x and y positions of the source image, on topofthe destination image.
-        $src_xPosition = 75; //75 pixels from the left.
-        $src_yPosition = 0; //50 pixels from the top.
+        $src_xPosition = $x_left; //75 pixels from the left.
+        $src_yPosition = $y_top; //50 pixels from the top.
 //set the x and y positions of the source image to be copied to the destination image
         $src_cropXposition = 0; //do not crop at the side
         $src_cropYposition = 0; //do not crop on the top

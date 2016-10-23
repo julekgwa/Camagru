@@ -1,4 +1,7 @@
-/* 
+/**
+ * Created by julekgwa on 2016/10/23.
+ */
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -145,7 +148,7 @@ window.onload = function () {
         like.addEventListener('submit', function (e) {
             var data = new FormData(like);
             var request = new XMLHttpRequest();
-            request.open('POST', url + 'img/like_ajax', true);
+            request.open('POST', url + 'img\/like_ajax', true);
             request.onload = function (event) {
                 if (request.status == 200) {
                     var res = JSON.parse(request.responseText);
@@ -198,7 +201,9 @@ window.onload = function () {
             e.preventDefault();
         }, false);
     }
-}
+
+    addListeners();
+};
 
 //validate passwod
 function validatePassword(passwdId, errorId) {
@@ -270,55 +275,82 @@ function unHide(unhideId) {
 var cam = document.getElementById('cam'); //open and take picture button
 var video = document.getElementById('video'); //the video div
 var canvas = document.getElementById('canvas'); //the canvas div
-var superImages = document.getElementById('super-images'); //superimposed div
+var drawCanvas = document.getElementById('from-form'); //the canvas div
+var canvasWidth = 400;
+var canvasHeight = 300;
+// var superImages = document.getElementById('super-images'); //superimposed div
 var upload = document.getElementById('upload-photo'); //upload photo button
 var save = document.getElementById('save-photo'); //save photo image
 var img = null; //check if image is selected.
+var srcXPosition = 75; //75 pixels from the left.
+var srcYPosition = 0; //0 pixels from the top.
 var image = document.getElementById('image'); //uploaded image from form.
 if (cam) {
-    cam.onclick = function () {
-        if (document.querySelector('input[name="super"]:checked')) {
-            img = document.querySelector('input[name="super"]:checked').value;
-        }
-        var val = (this.innerHTML);
-        var context = canvas.getContext('2d');
-        var vendorUrl = window.URL || window.webkitURL;
-        if (val === 'Open camera') {
-            cam.innerHTML = 'Take photo';
-            this.disabled = true;
-            // video.removeAttribute('hidden');
-            // superImages.removeAttribute('hidden');
-            enableEl(['video', 'super-images']);
-            disableEl(['upload-image', 'save-photo']);
-            navigator.getMedia = navigator.getUserMedia ||
-                navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia ||
-                navigator.msGetUserMedia;
-            navigator.getMedia({
-                video: true,
-                audio: false
-            }, function (stream) {
-                var source = vendorUrl.createObjectURL(stream);
-                video.src = source;
-                video.play();
-            }, function (error) {
-                console.log(error);
-            });
-        } else if (val === 'Take photo') {
-            if (img) {
-                context.drawImage(video, 0, 0, 400, 300);
-                var dataURL = canvas.toDataURL('image/png');
-                playShutter();
-                uploadImage(dataURL);
-            } else {
-                alert('Please pick superimpose image'); //display error here
-            }
+    cam.addEventListener('click', saveImage, false);
+}
+
+function saveImage(upload) {
+    if (document.querySelector('input[name="super"]:checked')) {
+        img = document.querySelector('input[name="super"]:checked').value;
+    }
+    var val = (this.innerHTML);
+    var context = canvas.getContext('2d');
+    if (val === 'Open camera') {
+        cam.innerHTML = 'Take photo';
+        this.disabled = true;
+        enableEl(['video', 'super-images']);
+        disableEl(['upload-image', 'save-photo']);
+        openCam()
+    } else if (val === 'Take photo') {
+        if (img) {
+            context.drawImage(video, 0, 0, canvasWidth, canvasHeight);
+            var dataURL = canvas.toDataURL('image/png');
+            playShutter();
+            uploadImage(dataURL);
+        } else {
+            alert('Please pick superimpose image'); //display error here
         }
     }
 }
 
+function openCam() {
+    var vendorUrl = window.URL || window.webkitURL;
+    navigator.getMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+    navigator.getMedia({
+        video: true,
+        audio: false
+    }, function (stream) {
+        var source = vendorUrl.createObjectURL(stream);
+        video.src = source;
+        video.play();
+        upload.addEventListener('click', function () {
+            stopStream(stream);
+        });
+        // video.src = vendorUrl.createObjectURL(stream);
+        // MediaStream = stream.getTracks()[0];
+    }, function (error) {
+        console.log(error);
+    });
+}
+
+function stopStream(stream) {
+    stream.getVideoTracks().forEach(function (track) {
+        track.stop();
+    });
+    video.src = '';
+    cam.innerHTML = 'Open camera';
+    if (cam.hasAttribute('disabled')) {
+        cam.removeAttribute('disabled');
+    }
+    disableEl(['video'])
+    enableEl(['upload-image', 'save-photo']);
+}
+
 function uploadImage(dataURL) {
-    var data = 'image=' + dataURL + '&src=' + img;
+    var data = 'image=' + dataURL + '&src=' + img + '&x=' + srcXPosition + '&y=' + srcYPosition;
     var request = new XMLHttpRequest();
     request.open('POST', url + 'edit\/upload_image_cam', true);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -327,6 +359,7 @@ function uploadImage(dataURL) {
             var res = JSON.parse(request.responseText);
             if (res.hasOwnProperty('src')) {
                 createDiv('uploaded-imgs', clean_url + '/uploads/user-img/' + res.src, 'side-img');
+                // console.log(res);
             }
             //    handle errors here
         }
@@ -334,24 +367,48 @@ function uploadImage(dataURL) {
     request.send(data);
 }
 
-if (upload) {
-    upload.addEventListener('click', function () {
-        disableEl(['video', 'super-images']);
-        enableEl(['save-photo', 'upload-image']);
-    });
+// if (upload) {
+//     upload.addEventListener('click', function () {
+//         var val = this.innerHTML;
+//         if (val === 'Upload photo') {
+//             video.pause();
+//         }
+//     });
+// }
+
+if (save) {
+    save.addEventListener('click', function () {
+        if (document.querySelector('input[name="super"]:checked')) {
+            img = document.querySelector('input[name="super"]:checked').value;
+        }
+        if (img) {
+            var context = drawCanvas.getContext('2d');
+            // context.drawImage(video, 0, 0, drawCanvas.width, drawCanvas.height);
+            var dataURL = drawCanvas.toDataURL('image/png');
+            playShutter();
+            uploadImage(dataURL);
+        } else {
+            alert('Please pick superimpose image'); //display error here
+        }
+    })
 }
+
 
 if (image) {
     image.addEventListener('change', function () {
-        // var preview = document.getElementById('preview');
-        // preview.src = URL.createObjectURL(e.target.files[0]);
-        var context = canvas.getContext('2d');
+
+        var context = drawCanvas.getContext('2d');
         if (this.files && this.files[0]) {
             var fr = new FileReader();
             fr.onload = function (ev) {
                 var img = new Image();
                 img.onload = function () {
-                    context.drawImage(img, 0, 0);
+                    // canvasWidth = img.naturalWidth;
+                    // canvasHeight = img.naturalHeight;
+                    drawCanvas.width = img.naturalWidth;
+                    drawCanvas.height = img.naturalHeight;
+                    enableEl(['super-images']);
+                    context.drawImage(img, 0, 0, drawCanvas.width, drawCanvas.height);
                 };
                 img.src = ev.target.result;
             };
@@ -360,10 +417,9 @@ if (image) {
     }, false);
 }
 
-if (save) {
-    save.addEventListener('click', function(){
-        alert('Yes');
-    }, false);
+function stopcam() {
+    MediaStream.stop();
+    cam.innerHTML = 'Open camera';
 }
 
 function disableEl(params) {
@@ -405,12 +461,66 @@ function createDiv(idParent, innerContent, clsName) {
 
 var radios = document.getElementsByName('super');
 if (radios) {
+    var overlay = document.getElementById('impose');
     for (var radio in radios) {
         radios[radio].onclick = function () {
             var cam = document.getElementById('cam');
+            overlay.src = url + '/images/' + document.querySelector('input[name="super"]:checked').value;
             if (cam.hasAttribute('disabled')) {
                 cam.removeAttribute('disabled');
             }
         }
     }
+}
+
+// function moveImage(e) {
+//     var move = document.getElementById('impose');
+//     // move.style.position = 'absolute';
+//     // move.style.top = e.clientY + 'px';
+//     // move.style.left = e.clientX + 'px';
+//     move.style.top = e.clientY - 75 + 'px';
+//     move.style.left = e.clientX - 75 + 'px';
+//     // console.log('Y: ' +e.clientY);
+//     // console.log('X: ' +e.clientX);
+// }
+//
+// function addListeners(){
+//     document.getElementById('impose').addEventListener('mousedown', mouseDown, false);
+//     window.addEventListener('mouseup', mouseUp, false);
+//
+// }
+//
+// function mouseUp()
+// {
+//     window.removeEventListener('mousemove', moveImage, true);
+// }
+//
+//
+// function mouseDown(e){
+//   window.addEventListener('mousemove', moveImage, true);
+// }
+
+function moveImage(e) {
+    var move = document.getElementById('impose');
+    // move.style.position = 'absolute';
+    move.style.top = e.clientY - 75 + 'px';
+    move.style.left = e.clientX - 75 + 'px';
+    srcYPosition = parseInt(move.style.top);
+    srcXPosition = parseInt(move.style.left);
+}
+
+function addListeners() {
+    var imp = document.getElementById('impose');
+    if (imp) {
+        imp.addEventListener('mousedown', mouseDown, false);
+    }
+    window.addEventListener('mouseup', mouseUp, false);
+}
+
+function mouseUp() {
+    window.removeEventListener('mousemove', moveImage, true);
+}
+
+function mouseDown(e) {
+    window.addEventListener('mousemove', moveImage, true);
 }
