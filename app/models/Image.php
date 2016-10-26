@@ -103,7 +103,8 @@ class Image
         }
     }
 
-    public function get_images() {
+    public function get_images()
+    {
         $stmt = $this->_db->prepare('SELECT * FROM images INNER JOIN users ON images.users_user_id = users.user_id ORDER BY image_created DESC');
         try {
             $stmt->execute();
@@ -111,6 +112,18 @@ class Image
             return $results;
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    public function get_images_limit()
+    {
+        $stmt = $this->_db->prepare('SELECT images.image_id, images.image_url, users.user_name FROM (SELECT * FROM images LIMIT ?, ?) images INNER JOIN users ON images.users_user_id = users.user_id ORDER BY image_created DESC');
+        try {
+            $stmt->execute([0, 8]);
+            $results = $stmt->fetchAll();
+            return $results;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         }
     }
 }

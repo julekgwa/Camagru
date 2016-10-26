@@ -363,15 +363,13 @@ function openCam() {
 
 function stopStream(stream) {
     stream.getVideoTracks().forEach(function (track) {
+        enableEl(['upload-image']);
         track.stop();
     });
     video.src = '';
     cam.innerHTML = 'Open camera';
-    if (cam.hasAttribute('disabled')) {
-        cam.removeAttribute('disabled');
-    }
     disableEl(['video'])
-    enableEl(['upload-image', 'save-photo']);
+    enableEl(['upload-image', 'save-photo', 'cam']);
 }
 
 function uploadImage(dataURL) {
@@ -392,21 +390,21 @@ function uploadImage(dataURL) {
     request.send(data);
 }
 
-// if (upload) {
-//     upload.addEventListener('click', function () {
-//         var val = this.innerHTML;
-//         if (val === 'Upload photo') {
-//             video.pause();
-//         }
-//     });
-// }
+if (upload) {
+    upload.addEventListener('click', function () {
+        var val = this.innerHTML;
+        if (val === 'Upload photo') {
+            enableEl(['upload-image']);
+        }
+    });
+}
 
 if (save) {
     save.addEventListener('click', function () {
         if (document.querySelector('input[name="super"]:checked')) {
             img = document.querySelector('input[name="super"]:checked').value;
         }
-        if (img) {
+        if (img && image.value) {
             var context = drawCanvas.getContext('2d');
             // context.drawImage(video, 0, 0, drawCanvas.width, drawCanvas.height);
             var dataURL = drawCanvas.toDataURL('image/png');
@@ -432,7 +430,8 @@ if (image) {
                     // canvasHeight = img.naturalHeight;
                     drawCanvas.width = img.naturalWidth;
                     drawCanvas.height = img.naturalHeight;
-                    enableEl(['super-images']);
+                    disableEl(['video'])
+                    enableEl(['super-images', 'from-form']);
                     context.drawImage(img, 0, 0, drawCanvas.width, drawCanvas.height);
                 };
                 img.src = ev.target.result;
@@ -451,8 +450,8 @@ function disableEl(params) {
     for (var el in params) {
         var dis = document.getElementById(params[el]);
         if (dis) {
-            if (!dis.hasAttribute('hidden')) {
-                dis.setAttribute('hidden', true);
+            if (dis.style.display === 'block') {
+                dis.style.display = 'none';
             }
         }
     }
@@ -462,8 +461,8 @@ function enableEl(params) {
     for (var el in params) {
         var dis = document.getElementById(params[el]);
         if (dis) {
-            if (dis.hasAttribute('hidden')) {
-                dis.removeAttribute('hidden');
+            if (dis.style.display === 'none') {
+                dis.style.display = 'block';
             }
         }
     }
@@ -498,32 +497,6 @@ if (radios) {
     }
 }
 
-// function moveImage(e) {
-//     var move = document.getElementById('impose');
-//     // move.style.position = 'absolute';
-//     // move.style.top = e.clientY + 'px';
-//     // move.style.left = e.clientX + 'px';
-//     move.style.top = e.clientY - 75 + 'px';
-//     move.style.left = e.clientX - 75 + 'px';
-//     // console.log('Y: ' +e.clientY);
-//     // console.log('X: ' +e.clientX);
-// }
-//
-// function addListeners(){
-//     document.getElementById('impose').addEventListener('mousedown', mouseDown, false);
-//     window.addEventListener('mouseup', mouseUp, false);
-//
-// }
-//
-// function mouseUp()
-// {
-//     window.removeEventListener('mousemove', moveImage, true);
-// }
-//
-//
-// function mouseDown(e){
-//   window.addEventListener('mousemove', moveImage, true);
-// }
 
 function moveImage(e) {
     var move = document.getElementById('impose');

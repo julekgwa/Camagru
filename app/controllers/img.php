@@ -123,10 +123,16 @@ class Img extends Controller
     public function add_comment_ajax() {
         if (filter_has_var(INPUT_POST, 'comment')) {
             if (Controller::logged_on()) {
+                $headers = "From: Camagru <no-reply@camagru.com>\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
                 $user = $this->model('User');
                 $user->setDB(Controller::$db);
                 $id = $user->get_user_id(filter_var($_SESSION['logged_on_user']));
+                $email = $user->get_user_email($id);
+//                $content = $user->mail_content('A comment was added to your image');
                 $comment_id = $this->add_comment($id, 1);
+                $user->send_email($email, "A new Comment", 'A comment was added to your image', $headers);
                 $comment = $this->get_comment($comment_id);
                 $site_data['comment'] = $this->create_comment($comment);
                 echo json_encode($site_data);

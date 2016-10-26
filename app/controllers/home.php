@@ -8,8 +8,11 @@
  */
 class Home extends Controller {
 
-    public function index() {
-        $site_data = $this->load_data();
+    public function index($current = '') {
+        $site_data['id'] = $current;
+        $image = $this->model('Image');
+        $image->setDb(Controller::$db);
+        $site_data['obj'] = $image;
         $this->view('templates/header');
         $this->view('home/index', $site_data);
         $this->view('templates/footer');

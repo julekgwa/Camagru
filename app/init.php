@@ -14,4 +14,6 @@ try {
     exit();
 }
 
+require_once ('config/setup.php');
+
 Controller::$db = $db;

@@ -252,4 +252,14 @@ class User
             return false;
         }
     }
+
+    public function get_user_email($id) {
+        $stmt = $this->_db->prepare('SELECT users.user_email FROM `users` WHERE `user_id` = ?');
+        try {
+            $stmt->execute([$id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['user_email'];
+        }catch (PDOException $e) {}
+        return false;
+    }
 }
